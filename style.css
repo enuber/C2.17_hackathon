@@ -42,6 +42,7 @@ body{
     background-image: url('http://renoriver.org/wp-content/uploads/2014/02/beer-copy.jpg');
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
 }
 button#beginSearch {
     margin: 2%;

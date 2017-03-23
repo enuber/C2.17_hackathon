@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDubEdvWZUOZX4jOrSXvXFxdtH3Xpuaonw"></script>
     <script src="app.js"></script>
 
@@ -15,41 +16,91 @@
 <!--<button type="button" class="currentLoc">Get Current Location</button>-->
 <!--<input class="address" type="text" value="enter address">-->
 <!--<input class="submit" type="submit" value="Submit">-->
-    <div id="mainContainer">
+    <div id="container-fluid mainContainer">
         <!--<button id="beginSearch">Find Your Beer</button>-->
         <div id="modalContainer">
-            <div id="searchContainer">
-                <input id="locationInput" class="address">
-                <button id="findLocationButton" class ="submit">Send</button>
-                <br>
-                <button type="button" class="currentLoc btn-success mt-1" id="getLocationButton">Get Current Location</button>
-            </div>
-            <div id="beerSelectContainer">
-                <br>
-                <input type="radio" value="American%20IPA" yelpKeyWord="Ipa Beer" name="beerStyle" class="beerSelector" checked="checked"/>
-                India Pale Ale/IPA
-                <br>
-                <input type="radio" value="Amber" name="beerStyle" yelpKeyWord="Amber Ale Beer" class="beerSelector"/>
-                Amber Ale
-                <br>
-                <input type="radio" value="Robust%20Porter" name="beerStyle" yelpKeyWord="Porter Beer" class="beerSelector"/>
-                Porter
-                <br>
-                <input type="radio" value="American%20Lager" name="beerStyle" yelpKeyWord="Lager Beer" class="beerSelector"/>
-                Lager
-                <br>
-                <input type="radio" value="Stout" name="beerStyle" yelpKeyWord="Stout Beer" class="beerSelector"/>
-                Stout
-                <br>
-                <input type="radio" value="Belgian%20Dubbel" name="beerStyle" yelpKeyWord="Belgium Beer" class="beerSelector"/>
-                Belgium Beer
-                <br>
-                <input type="radio" value="Imperial%20IPA" name="beerStyle" yelpKeyWord="double IPA Beer" class="beerSelector"/>
-                Imperial IPA
-                <br>
-                <button id="submitBeerButton">Submit</button>
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Grab A Beer!</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="searchContainer">
+                                <input id="locationInput" class="address">
+                                <button type="button" id="findLocationButton" class="btn btn-primary submit">Send</button>
+                                <button type="button" id="getLocationButton" class="btn btn-success currentLoc mt-1">Get Location</button>
+                            </div>
+                            <div id="beerSelectContiner">
+                                <form>
+                                    <input type="radio" value="American%20IPA" yelpKeyWord="Ipa Beer" name="beerStyle" class="beerSelector" checked="checked"/>
+                                    India Pale Ale/IPA
+                                    <br>
+                                    <input type="radio" value="Amber" name="beerStyle" yelpKeyWord="Amber Ale Beer" class="beerSelector"/>
+                                    Amber Ale
+                                    <br>
+                                    <input type="radio" value="Robust%20Porter" name="beerStyle" yelpKeyWord="Porter Beer" class="beerSelector"/>
+                                    Porter
+                                    <br>
+                                    <input type="radio" value="American%20Lager" name="beerStyle" yelpKeyWord="Lager Beer" class="beerSelector"/>
+                                    Lager
+                                    <br>
+                                    <input type="radio" value="Stout" name="beerStyle" yelpKeyWord="Stout Beer" class="beerSelector"/>
+                                    Stout
+                                    <br>
+                                    <input type="radio" value="Belgian%20Dubbel" name="beerStyle" yelpKeyWord="Belgium Beer" class="beerSelector"/>
+                                    Belgium Beer
+                                    <br>
+                                    <input type="radio" value="Imperial%20IPA" name="beerStyle" yelpKeyWord="double IPA Beer" class="beerSelector"/>
+                                    Imperial IPA
+                                    <br>
+                                    <button type="button" id="submitBeerButton" class="btn btn-default">Submit Beer Style</button>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+            <!--edit below-->
+            <!--<div id="searchContainer">-->
+                <!--<input id="locationInput" class="address">-->
+                <!--<button id="findLocationButton" class ="submit">Send</button>-->
+                <!--<br>-->
+                <!--<button type="button" class="currentLoc btn-success mt-1" id="getLocationButton">Get Current Location</button>-->
+            <!--</div>-->
+            <!--<div id="beerSelectContainer">-->
+                <!--<br>-->
+                <!--<input type="radio" value="American%20IPA" yelpKeyWord="Ipa Beer" name="beerStyle" class="beerSelector" checked="checked"/>-->
+                <!--India Pale Ale/IPA-->
+                <!--<br>-->
+                <!--<input type="radio" value="Amber" name="beerStyle" yelpKeyWord="Amber Ale Beer" class="beerSelector"/>-->
+                <!--Amber Ale-->
+                <!--<br>-->
+                <!--<input type="radio" value="Robust%20Porter" name="beerStyle" yelpKeyWord="Porter Beer" class="beerSelector"/>-->
+                <!--Porter-->
+                <!--<br>-->
+                <!--<input type="radio" value="American%20Lager" name="beerStyle" yelpKeyWord="Lager Beer" class="beerSelector"/>-->
+                <!--Lager-->
+                <!--<br>-->
+                <!--<input type="radio" value="Stout" name="beerStyle" yelpKeyWord="Stout Beer" class="beerSelector"/>-->
+                <!--Stout-->
+                <!--<br>-->
+                <!--<input type="radio" value="Belgian%20Dubbel" name="beerStyle" yelpKeyWord="Belgium Beer" class="beerSelector"/>-->
+                <!--Belgium Beer-->
+                <!--<br>-->
+                <!--<input type="radio" value="Imperial%20IPA" name="beerStyle" yelpKeyWord="double IPA Beer" class="beerSelector"/>-->
+                <!--Imperial IPA-->
+                <!--<br>-->
+                <!--<button id="submitBeerButton">Submit</button>-->
+            <!--</div>-->
+        <!--</div>-->
         <div id="domContainer">
 
         </div>
