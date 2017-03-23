@@ -94,13 +94,13 @@ function request($host, $path) {
 }
 
 /**
- * Query the Search API by a search term and location 
- * 
- * @param    $term        The search term passed to the API 
- * @param    $location    The search location passed to the API 
+ * Query the Search API by a search term and location, and optional parameters.
+ * If the parameters by the Search API do not exist, we will use default parameters
+ *
+ * @param    $filters     Parameters passed to the API to filter search
  * @return   The JSON response from the request 
  */
-function search($term, $location, $filters) {
+function search($filters) {
     $url_params = $filters;
 
     $url_params['term'] = empty($url_params['term']) ? $GLOBALS['DEFAULT_TERM'] : $url_params['term'];
@@ -113,25 +113,19 @@ function search($term, $location, $filters) {
 }
 
 /**
- * Queries the API by the input values from the user 
- * 
- * @param    $term        The search term to query
- * @param    $location    The location of the business to query
+ * Queries the API by the input values from the user sent by the AJAX call
+ *
+ * @param    $filters     Parameters to query
+ *
  */
-function query_api($term, $location, $filters) {
-    $response = json_decode(search($term, $location, $filters));
+function query_api($filters) {
+    $response = json_decode(search($filters));
     print json_encode($response);
 }
 
 /**
  * User input is handled here 
  */
-$longopts  = array(
-    "term::",
-    "location::",
-);
-    
-$options = getopt("", $longopts);
 
 $term = $_GET['term'] ?: '';
 $location = $_GET['location'] ?: '';
@@ -144,6 +138,6 @@ foreach($_GET as $filterName => $filterValue){
 
 
 
-query_api($term, $location, $filters);
+query_api($filters);
 
 ?>
