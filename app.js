@@ -172,7 +172,6 @@ function getDirections(origin, destination) {
         };
     directionsDisplay.setMap(null);
     directionsDisplay.setMap(map);
-    directionsDisplay.setDirections({routes: []});
     directionsService.route(request, function(result, status) {
        if (status == 'OK') {
            directionsDisplay.setDirections(result);
