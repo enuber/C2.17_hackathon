@@ -21,12 +21,11 @@ var locationObj = {
 var contactInfo = [];
 var markers = [];
 var geocoder;
-// var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
 
+/**
+ *
+ */
 function initialize() {
-    /**
-     *
-     */
     geocoder = new google.maps.Geocoder();
     var center = new google.maps.LatLng(37.09024, -100.712891);
     map = new google.maps.Map(document.getElementById('map'), {
@@ -58,7 +57,9 @@ function createContactInfo(response) {
         addressInfo.state = response.businesses[i].location.state_code;
         addressInfo.zip = response.businesses[i].location.postal_code;
         addressInfo.phone = response.businesses[i].display_phone;
-        addressInfo.phone = addressInfo.phone.substring(1);
+        if (addressInfo.phone != '') {
+            addressInfo.phone = addressInfo.phone.substring(1);
+        }
         addressInfo.url = response.businesses[i].url;
         contactInfo.push(addressInfo);
     }
@@ -73,12 +74,13 @@ function createMarker(response) {
         var marker = new google.maps.Marker({
             map: map,
             position: coordinates,
+            animation: google.maps.Animation.DROP,
             html:  '<div class="markerWindow">' +
             '<h1>' + contactInfo[i].name + '</h1>' +
             '<p>' + contactInfo[i].address + '</p>' +
             '<p>' + contactInfo[i].city + ', ' + contactInfo[i].state + ' ' + contactInfo[i].zip +'</p>' +
             '<p>' + contactInfo[i].phone + '</p>' +
-            '<a target="_blank" href=' + contactInfo[i].url + '> website </a>' +
+            '<a target="_blank" href=' + contactInfo[i].url + '> reviews </a>' +
             '</div>'
         });
 
@@ -86,6 +88,11 @@ function createMarker(response) {
         google.maps.event.addListener(marker, 'click', function() {
             infoWindow.setContent(this.html);
             infoWindow.open(map, this);
+            map.setCenter(marker.getPosition());
+        });
+
+        google.maps.event.addListener(map, 'click', function(){
+            infoWindow.close();
         });
     }
 
@@ -123,15 +130,12 @@ function codeAddress() {
  *  Get the current location of the user and center map on that location, if the user allows
  */
 function getLocation() {
-    var coordinates = {};
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
-            coordinates.lat = pos.lat;
-            coordinates.long = pos.lng;
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
             locationObj = {};
             locationObj.lat = pos.lat;
@@ -141,6 +145,21 @@ function getLocation() {
     } else {
         console.log("Geolocation is not supported for this Browser/OS");
     }
+}
+
+function getDirections(origin, destination) {
+    var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer(),
+        request = { origin: origin,
+            destination: destination,
+            travelMode: 'DRIVING'
+        };
+    directionsDisplay.setMap(map);
+    directionsService.route(request, function(result, status) {
+       if (status == 'OK') {
+           directionsDisplay.setDirections(result);
+       }
+    });
 }
 
 //Donald's Yelp Code
