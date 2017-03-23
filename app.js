@@ -69,10 +69,15 @@ function createContactInfo(response) {
  */
 function createMarker(response) {
     createContactInfo(response);
+    //brian
+    // var image="http://emojipedia-us.s3.amazonaws.com/cache/bb/cc/bbcc10a5639af93ab107cc2349700533.png"
+    var image="images/beer.png";
+    //brian
     for (var i = 0; i < yelp.coords.length; i++) {
         var coordinates = yelp.coords[i];
         var marker = new google.maps.Marker({
             map: map,
+            icon: image,
             position: coordinates,
             animation: google.maps.Animation.DROP,
             html:  '<div class="markerWindow">' +
@@ -260,6 +265,14 @@ function callFoodPairings() {
 }
 
 function submitBeerSelection(){
+    //brian
+    if (locationObj.lat === null){
+        $('.alert-danger').css('display','block');
+    } else{
+        $('#submitBeerButton').attr('data-dismiss', 'modal');
+    }
+
+    //brian
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     callFoodPairings();
@@ -301,6 +314,17 @@ function foodPairingDomCreation(){
 function modalDisplay() {
     $("#myModal").modal();
 }
+// function modalAlert(){
+//     $('.alert-success').css('display','block');
+// }
+//brian start
 function modalAlert(){
-    $('.alert-success').css('display','block');
+    if (locationObj.lng === null){
+        $('.alert-danger').css('display', 'block');
+    } else{
+        $('.alert-danger').css('display','none');
+        $('.alert-success').css('display','block');
+
+    }
 }
+//brian end
