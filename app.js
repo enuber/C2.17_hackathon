@@ -278,7 +278,7 @@ function applyClickHandlers(){
 //  $('#getLocationButton').click(getLocation);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
-    $('#tapButton').click(modalDisplay);
+    $('#tapContainer').mouseup(modalDisplay);
     // $(".close").on("click", function(){
     //     alert("Please Enter A Location");
     // });
@@ -286,7 +286,7 @@ function applyClickHandlers(){
     $('#myModal').modal({
         backdrop: 'static',
         keyboard: false
-    })
+    });
     $('#getLocationSpan').click(modalAlert); //this can be a class
 }
 

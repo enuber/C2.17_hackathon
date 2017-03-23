@@ -162,6 +162,10 @@ button#submitBeerButton {
         font-size: 16px;
     }
 }
+#tapContainer {
+    border: 1px red solid;
+    width: 100%;
+}
 #tapButton {
     height: 44vmin;
     background-image: url(images/beertap.png);
@@ -171,4 +175,9 @@ button#submitBeerButton {
     position: absolute;
     left: 6%;
     bottom: 0;
+}
+#tapButton:active {
+    transform: translateY(8vmin) translateX(15vmin) rotateZ(45deg);
+    transition-duration: 1s;
+    transition-timing-function: cubic-bezier(0.2,1,0.3,1);
 }
