@@ -58,7 +58,7 @@ function createContactInfo(response) {
         addressInfo.state = response.businesses[i].location.state_code;
         addressInfo.zip = response.businesses[i].location.postal_code;
         addressInfo.phone = response.businesses[i].display_phone;
-        if (addressInfo.phone != '') {
+        if (addressInfo.phone != undefined) {
             addressInfo.phone = addressInfo.phone.substring(1);
         }
         addressInfo.url = response.businesses[i].url;
