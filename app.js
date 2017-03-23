@@ -56,7 +56,7 @@ function initialize() {
 }
 
 function callback(results, status) {
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {611
         for (var i = 0; i < results.length; i++) {
             markers.push(createMarker(results[i]));
         }
