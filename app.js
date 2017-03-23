@@ -1,20 +1,20 @@
-
 var map;
 var infoWindow;
 var locationObj = {
     lat : null,
     long : null
 };
+var contactInfo = [];
 var markers = [];
 var geocoder;
-var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
+// var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
 
 function initialize() {
     geocoder = new google.maps.Geocoder();
     var center = new google.maps.LatLng(37.09024, -100.712891);
     map = new google.maps.Map(document.getElementById('map'), {
         center: center,
-        zoom: 13,
+        zoom: 12,
         panControl: false,
         mapTypeControl: false,
         zoomControl: true,
@@ -28,22 +28,48 @@ function initialize() {
 
     infoWindow = new google.maps.InfoWindow();  // can add content here
 }
-function createMarker() {
-    for (var i = 0; i < tempCoors.length; i++) {
-        var coordinates = tempCoors[i];
-        var marker = new google.maps.Marker({
-            map: map,
-            position: coordinates
-        });
-        markers.push(marker);
+function createContactInfo(response) {
+    console.log(response);
+    for (var i=0; i<response.businesses.length; i++) {
+        var addressInfo = {}
+        addressInfo.name = response.businesses[i].name;
+        addressInfo.address = response.businesses[i].location.address[0];
+        addressInfo.city = response.businesses[i].location.city;
+        addressInfo.state = response.businesses[i].location.state_code;
+        addressInfo.zip = response.businesses[i].location.postal_code;
+        addressInfo.phone = response.businesses[i].display_phone;
+        addressInfo.phone = addressInfo.phone.substring(1);
+        addressInfo.url = response.businesses[i].url;
+        contactInfo.push(addressInfo);
     }
-    google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.setContent(place.name);
-        infoWindow.open(map, this);
-    });
 }
 
-function clearResults(markers) {
+function createMarker(response) {
+    createContactInfo(response);
+    for (var i = 0; i < yelp.coords.length; i++) {
+        var coordinates = yelp.coords[i];
+        var marker = new google.maps.Marker({
+            map: map,
+            position: coordinates,
+            html:  '<div class="markerWindow">' +
+            '<h1>' + contactInfo[i].name + '</h1>' +
+            '<p>' + contactInfo[i].address + '</p>' +
+            '<p>' + contactInfo[i].city + ', ' + contactInfo[i].state + ' ' + contactInfo[i].zip +'</p>' +
+            '<p>' + contactInfo[i].phone + '</p>' +
+            '<a target="_blank" href=' + contactInfo[i].url + '> website </a>' +
+            '</div>'
+        });
+
+        markers.push(marker);
+        google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.setContent(this.html);
+            infoWindow.open(map, this);
+        });
+    }
+
+}
+
+function clearMarkers() {
     for (var m in markers) {
         markers[m].setMap(null)
     }
@@ -55,10 +81,10 @@ function codeAddress() {
     geocoder.geocode({'address': address}, function(results, status){
         if (status == 'OK'){
             map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
+            // var marker = new google.maps.Marker({
+            //     map: map,
+            //     position: results[0].geometry.location
+            // });
         } else {
             alert("Geocode was not successful for the following reason: " + status);
         }
@@ -127,6 +153,8 @@ function callYelp(keywords, location){
                 };
                 console.log(yelp.coords[i]);
             }
+            clearMarkers();
+            createMarker(response);
         },
         error: function (error) {
             console.log("error: ", error);
@@ -185,7 +213,9 @@ function submitBeerSelection(){
 // }
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
-    // $('#beginSearch').click(findYourBeerInit);
+
+//  $('#beginSearch').click(findYourBeerInit);
+//  $('#getLocationButton').click(getLocation);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
     $('#titleContainer').click(modalDisplay);
