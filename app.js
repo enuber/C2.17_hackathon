@@ -132,25 +132,44 @@ $(document).ready(function(){
  * @param       location:   {string}
  * @param       keywords:   {string}
  *
- * @example1     location:   "beer"
+ * @example1     location:   "Irvine, CA"
  * @example2     latitude: 33.6698849,
  *               longitude: -117.7862341
  **/
 function callYelp(keywords, location){
+    // if (typeof location === "object" && !isNaN(location.lat) && !isNaN(location.long)){
+    //     long;
+    // }
     $.ajax({
         data: {
             "term": keywords,
-            "location": location
+            "location": location,
+            "limit": 11,
+            "latitude": -25.363,
+            "longitude": 131.044
         },
         url: "serverProxy/yelp/access.php",
         method: "GET",
         dataType: 'json',
-        success: function (yelp) {
-            console.log("success: ", yelp);
+        success: function (response) {
+            console.log("success: ", response);
+            console.log(response.businesses.length);
+            console.log(response.businesses[0].name);
+            yelp = response;
+            yelp.coords = [];
+            for (var i = 0;i < response.businesses.length; i++){
+                yelp.coords[i] = response.businesses[i].location.coordinate;
+                console.log(response.businesses[i].location.coordinate);
+            }
         },
         error: function (error) {
             console.log("error: ", error);
         }
     });
 }
+var yelp = {
+    coords: [],
+    restaurants: [],
+    region: {}
+};
 callYelp("tonkotsu ramen", "Torrance, CA");

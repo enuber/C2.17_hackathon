@@ -100,12 +100,15 @@ function request($host, $path) {
  * @param    $location    The search location passed to the API 
  * @return   The JSON response from the request 
  */
-function search($term, $location) {
+function search($term, $location, $filters) {
     $url_params = array();
-    
+
     $url_params['term'] = $term ?: $GLOBALS['DEFAULT_TERM'];
     $url_params['location'] = $location?: $GLOBALS['DEFAULT_LOCATION'];
-    $url_params['limit'] = $GLOBALS['SEARCH_LIMIT'];
+    $url_params['limit'] = $filters['limit']?: $GLOBALS['SEARCH_LIMIT'];
+    $url_params['sort_by'] = $filters['sort_by'];
+    $url_params['price'] = $filters['price'];
+
     $search_path = $GLOBALS['SEARCH_PATH'] . "?" . http_build_query($url_params);
 
     return request($GLOBALS['API_HOST'], $search_path);
@@ -129,8 +132,8 @@ function search($term, $location) {
  * @param    $term        The search term to query
  * @param    $location    The location of the business to query
  */
-function query_api($term, $location) {     
-    $response = json_decode(search($term, $location));
+function query_api($term, $location, $filters) {
+    $response = json_decode(search($term, $location, $filters));
 
 //    $business_id = $response->businesses[0]->id;
 //
@@ -158,8 +161,12 @@ $options = getopt("", $longopts);
 
 $term = $_GET['term'] ?: '';
 $location = $_GET['location'] ?: '';
+$filters = array();
+$filters['sort_by'] = $_GET['sort_by'] ?: '';
+$filters['price'] = $_GET['price'] ?: '';
+$filters['limit'] = $_GET['limit'] ?: '';
 
 
-query_api($term, $location);
+query_api($term, $location, $filters);
 
 ?>
