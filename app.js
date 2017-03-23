@@ -195,6 +195,7 @@ function callYelp(keywords, location){
         }
     });
 }
+// callYelp("ramen",'Torrance, CA');
 /**
  *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
  */
@@ -237,7 +238,6 @@ function submitBeerSelection(){
     // $('#modalContainer').css('display','none');
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
-    yelpKeyWord = $('input:checked').attr('yelpKeyWord');
     callFoodPairings();
     callYelp(getYelpKeyword(),locationObj);
 
