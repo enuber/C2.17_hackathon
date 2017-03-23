@@ -11,11 +11,47 @@
 
 </head>
 <body>
-<!--<input id="pac-input" class="controls" type="text" placeholder="Enter Your City Here">-->
-<div id="map">
-</div>
-<form class="myForm">
-    <input type="text" class="form-control" name="getZip" id="address" placeholder="Enter Your Zip"><button id="submit">Submit</button>
-</form>
+
+ <button type="button" class="currentLoc">Get Current Location</button>
+<input class="address" type="text" value="enter address">
+<input class="submit" type="submit" value="Submit">
+
+
+    <div id="mainContainer">
+        <button id="beginSearch">Find Your Beer</button>
+        <div id="modalContainer">
+            <div id="searchContainer">
+                <input id="locationInput"/>
+                <button id="findLocationButton">Search</button>
+            </div>
+            <div id="beerSelectContainer">
+                <br>
+                <input type="radio" value="American%20IPA" yelpValue="Ipa+Beer" name="beerStyle" class="beerSelector" checked="checked"/>
+                India Pale Ale/IPA
+                <br>
+                <input type="radio" value="Amber" name="beerStyle" yelpValue="Amber+Ale+Beer" class="beerSelector"/>
+                Amber Ale
+                <br>
+                <input type="radio" value="Robust%20Porter" name="beerStyle" yelpValue="Porter+Beer" class="beerSelector"/>
+                Porter
+                <br>
+                <input type="radio" value="American%20Lager" name="beerStyle" yelpValue="Lager+Beer" class="beerSelector"/>
+                Lager
+                <br>
+                <input type="radio" value="Stout" name="beerStyle" yelpValue="Stout+Beer" class="beerSelector"/>
+                Stout
+                <br>
+                <input type="radio" value="Belgian%20Dubbel" name="beerStyle" yelpValue="Belgium+Beer" class="beerSelector"/>
+                Belgium Beer
+                <br>
+                <input type="radio" value="Imperial%20IPA" name="beerStyle" yelpValue="double+IPA+Beer" class="beerSelector"/>
+                Imperial IPA
+                <br>
+                <button id="submitBeerButton">Submit</button>
+            </div>
+        </div>
+        <div id="map">
+        </div>
+    </div>
 </body>
 </html>
