@@ -305,6 +305,7 @@ function foodPairingDomCreation(){
 }
 
 function modalDisplay() {
+    $('.alert-success').css('display','none');
     $("#myModal").modal();
 }
 function modalAlert(){
