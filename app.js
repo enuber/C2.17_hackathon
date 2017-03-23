@@ -114,14 +114,31 @@ function callback(results, status) {
         }
     }
 }
-
+//brian
+// function thisIsForYelp(place){
+//     var placeLoc = place.geometry.location;
+//     var image = 'http://emojipedia-us.s3.amazonaws.com/cache/bb/cc/bbcc10a5639af93ab107cc2349700533.png';
+//         // size: new google.maps.Size(100, 100)
+//     // };
+//     var beachMarker = new google.maps.Marker({
+//         position: place.geometry.location,
+//         map: map,
+//         // size: new google.maps.Size(20,32),
+//         icon: image
+//     });
+//     google.maps.event.addListener(beachMarker, 'click', function(){
+//         infoWindow.setContent(place.name);
+//         infoWindow.open(map,this);
+//     });
+//     return beachMarker;
+// }
+//brian
 function createMarker(place) {
     var placeLoc = place.geometry.location;
     var marker = new google.maps.Marker({
         map: map,
         position: place.geometry.location
     });
-
     google.maps.event.addListener(marker, 'click', function() {
         infoWindow.setContent(place.name);
         infoWindow.open(map, this);
@@ -149,14 +166,12 @@ function codeAddress() {
         }
     })
 }
-
-
 function getLocation() {
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
-                lat : position.coords.latitude,
-                lng : position.coords.longitude
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
             };
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
             locationObj.currentLat = pos.lat;
