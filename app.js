@@ -111,9 +111,7 @@ function callYelp(keywords, location){
         data: {
             "term": keywords,
             "location": location,
-            "limit": 11,
-            "latitude": -25.363,
-            "longitude": 131.044
+            "limit": 11
         },
         url: "serverProxy/yelp/access.php",
         method: "GET",
@@ -125,8 +123,11 @@ function callYelp(keywords, location){
             yelp = response;
             yelp.coords = [];
             for (var i = 0;i < response.businesses.length; i++){
-                yelp.coords[i] = response.businesses[i].location.coordinate;
-                console.log(response.businesses[i].location.coordinate);
+                yelp.coords[i] = {
+                    lat: response.businesses[i].location.coordinate.latitude,
+                    lng: response.businesses[i].location.coordinate.longitude
+                };
+                console.log(yelp.coords[i]);
             }
         },
         error: function (error) {
@@ -195,4 +196,4 @@ function foodPairingDomCreation(){
 
 var imageContainer = {
 
-}
+};

@@ -135,7 +135,7 @@ $options = getopt("", $longopts);
 
 $term = $_GET['term'] ?: '';
 $location = $_GET['location'] ?: '';
-unset($_GET['term']);  unset($_GET['location']);
+//unset($_GET['term']);  unset($_GET['location']);
 
 $filters = array();
 foreach($_GET as $filterName => $filterValue){
