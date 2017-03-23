@@ -268,14 +268,11 @@ function applyClickHandlers(){
 function foodPairingDomCreation(){
     var $div = $('<div>',{
        text: foodPairings,
-       class: "domFoodPair"
+       class: "domFoodPair col-xs-8 col-sm-5 pull-right"
     });
     $('#domContainer').append($div);
 }
 
-// var imageContainer = {
-//
-// }
 function modalDisplay() {
     $("#myModal").modal();
 
