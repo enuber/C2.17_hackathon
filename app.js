@@ -171,7 +171,6 @@ function callFoodPairings() {
     });
 }
 function submitBeerSelection(){
-    // $('#modalContainer').css('display','none');
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     yelpKeyWord = $('input:checked').attr('yelpKeyWord');
@@ -179,14 +178,14 @@ function submitBeerSelection(){
 
 
 }
-function findYourBeerInit(){
-    $('#modalContainer').css('display','initial');
-    $('#beginSearch').css('display','none');
-    $('#domContainer').html('');
-}
+// function findYourBeerInit(){
+//     $('#modalContainer').css('display','initial');
+//     $('#beginSearch').css('display','none');
+//     $('#domContainer').html('');
+// }
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
-    $('#beginSearch').click(findYourBeerInit);
+    // $('#beginSearch').click(findYourBeerInit);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
     $('#titleContainer').click(modalDisplay);
