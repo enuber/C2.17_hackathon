@@ -6,6 +6,7 @@
     <title>Beer Informer</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDubEdvWZUOZX4jOrSXvXFxdtH3Xpuaonw"></script>
@@ -13,11 +14,9 @@
 
 </head>
 <body>
-<!--<button type="button" class="currentLoc">Get Current Location</button>-->
-<!--<input class="address" type="text" value="enter address">-->
-<!--<input class="submit" type="submit" value="Submit">-->
     <div id="container-fluid mainContainer">
         <!--<button id="beginSearch">Find Your Beer</button>-->
+        <div id="titleContainer">Grab A Beer</div>
         <div id="modalContainer">
             <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog modal-lg">
@@ -33,7 +32,7 @@
                                 <button type="button" id="getLocationButton" class="btn btn-success currentLoc mt-1">Get Location</button>
                             </div>
                             <div id="beerSelectContiner">
-                                <form>
+                                <!--<form>-->
                                     <input type="radio" value="American%20IPA" yelpKeyWord="Ipa Beer" name="beerStyle" class="beerSelector" checked="checked"/>
                                     India Pale Ale/IPA
                                     <br>
@@ -55,8 +54,8 @@
                                     <input type="radio" value="Imperial%20IPA" name="beerStyle" yelpKeyWord="double IPA Beer" class="beerSelector"/>
                                     Imperial IPA
                                     <br>
-                                    <button type="button" id="submitBeerButton" class="btn btn-default">Submit Beer Style</button>
-                                </form>
+                                    <button type="button" id="submitBeerButton" class="btn btn-default btn-lg">Submit Beer Style</button>
+                                <!--</form>-->
 
                             </div>
                         </div>
@@ -65,15 +64,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-            <!--edit below-->
+
             <!--<div id="searchContainer">-->
                 <!--<input id="locationInput" class="address">-->
                 <!--<button id="findLocationButton" class ="submit">Send</button>-->
                 <!--<br>-->
-                <!--<button type="button" class="currentLoc btn-success mt-1" id="getLocationButton">Get Current Location</button>-->
+                <!--<button type="button" class="currentLoc" id="getLocationButton">Get Current Location</button>-->
             <!--</div>-->
             <!--<div id="beerSelectContainer">-->
                 <!--<br>-->
@@ -99,13 +95,13 @@
                 <!--Imperial IPA-->
                 <!--<br>-->
                 <!--<button id="submitBeerButton">Submit</button>-->
-            <!--</div>-->
-        <!--</div>-->
-        <div id="domContainer">
-
-        </div>
-        <div id="map">
+            </div>
         </div>
     </div>
+        <div class="container-fluid" id="domContainer">
+            <div class="row">
+                <div id="map"></div>
+            </div>
+        </div>
 </body>
 </html>

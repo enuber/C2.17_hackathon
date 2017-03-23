@@ -139,6 +139,7 @@ callYelp("tonkotsu ramen", "Torrance, CA");
 function startUp () {
     initialize();
     applyClickHandlers();
+    modalDisplay()
 }
 $(document).ready(function(){
     startUp();
@@ -196,3 +197,6 @@ function foodPairingDomCreation(){
 // var imageContainer = {
 //
 // }
+function modalDisplay() {
+    $("#myModal").modal();
+}
