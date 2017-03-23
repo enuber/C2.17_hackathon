@@ -8,56 +8,75 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDubEdvWZUOZX4jOrSXvXFxdtH3Xpuaonw"></script>
     <script src="app.js"></script>
-
 </head>
 <body>
-<!--<button type="button" class="currentLoc">Get Current Location</button>-->
-<!--<input class="address" type="text" value="enter address">-->
-<!--<input class="submit" type="submit" value="Submit">-->
-    <div id="mainContainer">
-        <!--<button id="beginSearch">Find Your Beer</button>-->
-        <div id="titleContainer">Grab A Beer</div>
-        <div id="modalContainer">
-            <div id="searchContainer">
-                <input id="locationInput" class="address">
-                <button id="findLocationButton" class ="submit">Send</button>
-                <br>
-                <button type="button" class="currentLoc" id="getLocationButton">Get Current Location</button>
-            </div>
-            <div id="beerSelectContainer">
-                <br>
-                <input type="radio" value="American%20IPA" yelpKeyWord="Ipa Beer" name="beerStyle" class="beerSelector" checked="checked"/>
-                India Pale Ale/IPA
-                <br>
-                <input type="radio" value="Amber" name="beerStyle" yelpKeyWord="Amber Ale Beer" class="beerSelector"/>
-                Amber Ale
-                <br>
-                <input type="radio" value="Robust%20Porter" name="beerStyle" yelpKeyWord="Porter Beer" class="beerSelector"/>
-                Porter
-                <br>
-                <input type="radio" value="American%20Lager" name="beerStyle" yelpKeyWord="Lager Beer" class="beerSelector"/>
-                Lager
-                <br>
-                <input type="radio" value="Stout" name="beerStyle" yelpKeyWord="Stout Beer" class="beerSelector"/>
-                Stout
-                <br>
-                <input type="radio" value="Belgian%20Dubbel" name="beerStyle" yelpKeyWord="Belgium Beer" class="beerSelector"/>
-                Belgium Beer
-                <br>
-                <input type="radio" value="Imperial%20IPA" name="beerStyle" yelpKeyWord="double IPA Beer" class="beerSelector"/>
-                Imperial IPA
-                <br>
-
-                <!--<button id="submitBeerButton">Submit</button>-->
-            </div>
-            <div id="submitBeerButton"></div>
+    <div id="mainContainer" class="container">
+        <div class="row">
+            <div id="titleContainer" class="col-sm-4 offset-sm-4">Grab A Beer</div>
         </div>
-        <div id="domContainer">
+        <div class="row">
+            <div id="modalContainer">
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Grab A Beer!</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="searchContainer">
+                                    <input type="text" id="locationInput" class="address form-control" placeholder="Enter A Location">
+                                    <button type="button" id="findLocationButton" class="btn btn-primary submit form-control">Set Location</button>
+                                    <div class="orPick">
+                                        <h4>Or Grab Your Location Below</h4>
+                                    </div>
+                                    <button type="button" id="getLocationButton" class="btn btn-success currentLoc mt-1 form-control">Get Location</button>
+                                </div>
+                                <div id="beerSelectContainer">
+                                <!--<form>-->
+                                <!--<div>-->
+                                    <input type="radio" value="American%20IPA" yelpKeyWord="Ipa Beer" name="beerStyle" class="beerSelector" checked="checked"/>
+                                    India Pale Ale/IPA
+                                    <br>
+                                    <input type="radio" value="Amber" name="beerStyle" yelpKeyWord="Amber Ale Beer" class="beerSelector"/>
+                                    Amber Ale
+                                    <br>
+                                    <input type="radio" value="Robust%20Porter" name="beerStyle" yelpKeyWord="Porter Beer" class="beerSelector"/>
+                                    Porter
+                                    <br>
+                                    <input type="radio" value="American%20Lager" name="beerStyle" yelpKeyWord="Lager Beer" class="beerSelector"/>
+                                    Lager
+                                    <br>
+                                    <input type="radio" value="Stout" name="beerStyle" yelpKeyWord="Stout Beer" class="beerSelector"/>
+                                    Stout
+                                    <br>
+                                    <input type="radio" value="Belgian%20Dubbel" name="beerStyle" yelpKeyWord="Belgium Beer" class="beerSelector"/>
+                                    Belgium Beer
+                                    <br>
+                                    <input type="radio" value="Imperial%20IPA" name="beerStyle" yelpKeyWord="double IPA Beer" class="beerSelector"/>
+                                    Imperial IPA
+                                    <br>
+                                    <button type="button" id="submitBeerButton" class="btn btn-default btn-lg">Submit Beer Style</button>
+                                <!--</form>-->
 
+                                </div>
+                            </div>
+                        <!--<div class="modal-footer">-->
+                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="map">
+        <div class="row foodPair">
+        <!--<div class="domFoodPair"></div> &lt;!&ndash;is this DOM creation?&ndash;&gt;-->
+        </div>
+        <div class="row" id="domContainer">
+            <div class="col-sm-6" id="map"></div>
         </div>
     </div>
 </body>
