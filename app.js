@@ -1,4 +1,3 @@
-
 var map;
 var infoWindow;
 var locationObj = {
@@ -7,14 +6,14 @@ var locationObj = {
 };
 var markers = [];
 var geocoder;
-var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
+// var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
 
 function initialize() {
     geocoder = new google.maps.Geocoder();
     var center = new google.maps.LatLng(37.09024, -100.712891);
     map = new google.maps.Map(document.getElementById('map'), {
         center: center,
-        zoom: 13,
+        zoom: 12,
         panControl: false,
         mapTypeControl: false,
         zoomControl: true,
@@ -29,8 +28,8 @@ function initialize() {
     infoWindow = new google.maps.InfoWindow();  // can add content here
 }
 function createMarker() {
-    for (var i = 0; i < tempCoors.length; i++) {
-        var coordinates = tempCoors[i];
+    for (var i = 0; i < yelp.coords.length; i++) {
+        var coordinates = yelp.coords[i];
         var marker = new google.maps.Marker({
             map: map,
             position: coordinates
@@ -38,12 +37,12 @@ function createMarker() {
         markers.push(marker);
     }
     google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.setContent(place.name);
+        infoWindow.setContent();
         infoWindow.open(map, this);
     });
 }
 
-function clearResults(markers) {
+function clearMarkers() {
     for (var m in markers) {
         markers[m].setMap(null)
     }
@@ -55,10 +54,10 @@ function codeAddress() {
     geocoder.geocode({'address': address}, function(results, status){
         if (status == 'OK'){
             map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
+            // var marker = new google.maps.Marker({
+            //     map: map,
+            //     position: results[0].geometry.location
+            // });
         } else {
             alert("Geocode was not successful for the following reason: " + status);
         }
@@ -127,6 +126,8 @@ function callYelp(keywords, location){
                 };
                 console.log(yelp.coords[i]);
             }
+            clearMarkers();
+            createMarker();
         },
         error: function (error) {
             console.log("error: ", error);
