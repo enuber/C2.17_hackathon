@@ -136,3 +136,6 @@ button#submitBeerButton {
         width: 500px;
     }
 }
+#submitBeerButton:hover {
+    cursor: pointer;
+}
