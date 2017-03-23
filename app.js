@@ -130,7 +130,7 @@ function getLocation() {
 function callYelp(keywords, location){
     var searchQuery = {
         term: keywords,
-        limit: 211
+        limit: 11
     };
     if (typeof location === "object" && location.lat != null && location.long != null){
         searchQuery.latitude = location.lat;
