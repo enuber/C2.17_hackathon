@@ -64,14 +64,13 @@ function codeAddress() {
         }
     })
 }
-
 function getLocation() {
     var coordinates = {};
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
-                lat : position.coords.latitude,
-                lng : position.coords.longitude
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
             };
             coordinates.lat = pos.lat;
             coordinates.long = pos.lng;
@@ -84,6 +83,7 @@ function getLocation() {
         console.log("Geolocation is not supported for this Browser/OS");
     }
 }
+
 //Donald's Yelp Code
 /** @summary Does an AJAX call on the Yelp API and assigns the response to the global var 'yelp'
  *
@@ -109,9 +109,7 @@ function callYelp(keywords, location){
         data: {
             "term": keywords,
             "location": location,
-            "limit": 11,
-            "latitude": -25.363,
-            "longitude": 131.044
+            "limit": 11
         },
         url: "serverProxy/yelp/access.php",
         method: "GET",
@@ -123,8 +121,11 @@ function callYelp(keywords, location){
             yelp = response;
             yelp.coords = [];
             for (var i = 0;i < response.businesses.length; i++){
-                yelp.coords[i] = response.businesses[i].location.coordinate;
-                console.log(response.businesses[i].location.coordinate);
+                yelp.coords[i] = {
+                    lat: response.businesses[i].location.coordinate.latitude,
+                    lng: response.businesses[i].location.coordinate.longitude
+                };
+                console.log(yelp.coords[i]);
             }
         },
         error: function (error) {
