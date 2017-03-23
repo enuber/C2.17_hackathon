@@ -348,6 +348,7 @@ function foodPairingDomCreation(){
  * Displays the modal
  */
 function modalDisplay() {
+    directionsDisplay.setMap(null);
     $('.alert-success').css('display','none');
     $("#myModal").modal();
 }
