@@ -10,18 +10,19 @@
  * @type {object}
  */
 var foodPairings; //could be passed in as a param of foodPairingDomCreation
-var map;
-var infoWindow;
 var yelp = { coords: [] };
 var locationObj = {
     lat : null,
     lng : null
 };
 var contactInfo = []; //could be returned as a object in createContactInfo
-var markers = [];
+var map;
 var geocoder;
+var infoWindow;
+var markers = [];
 var origin = null;
 var destination = {};
+var directionsDisplay = new google.maps.DirectionsRenderer();
 /**
  *  Creates Google Map object and Google Geocoder object
  */
@@ -154,10 +155,11 @@ function getLocation() {
             locationObj.lat = pos.lat;
             locationObj.lng = pos.lng;
             $('#submitBeerButton').removeClass('disabled').on('click',submitBeerSelection);
-
+            modalAlert();
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
+        modalAlert();
         console.log("Geolocation is not supported for this Browser/OS");
     }
 }
@@ -166,8 +168,6 @@ function getLocation() {
 /**
  *  Get directions from users current location to their destination marker on the map.
  */
-var directionsDisplay = new google.maps.DirectionsRenderer();
-
 function getDirections(origin, destination) {
     var directionsService = new google.maps.DirectionsService();
     var request = { origin: origin,
@@ -331,7 +331,7 @@ function applyClickHandlers(){
         backdrop: 'static',
         keyboard: false
     });
-    $('#getLocationSpan').click(modalAlert); //this can be a class
+    // $('#getLocationSpan').click(modalAlert); //this can be a class
 }
 
 /**
