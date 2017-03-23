@@ -81,9 +81,9 @@ button#beginSearch {
 .currentLoc {
     margin: 25% 0 0 0;
 }
-button#submitBeerButton {
-    /*margin: 5%;*/
-}
+/*button#submitBeerButton {*/
+    /*!*margin: 5%;*!*/
+/*}*/
 /**brian*/
 #domContainer{
     height: 20%;
@@ -106,6 +106,10 @@ button#submitBeerButton {
 .modal {
     /*text-align:center;*/
 }
+.modal-content{
+    opacity: .9;
+    margin-top: 20%;
+}
 .modal-dialog {
     display: inline-block;
     width: auto;
@@ -127,12 +131,17 @@ button#submitBeerButton {
     }
     .modal-dialog{
         width: 600px;
+        left: 25%;
     }
     .modal-content{
-        height: 600px;
+        height: 70%;
+        margin-top: 10%;
+    }
+    input[type=radio]{
+        margin-left: 35%;
     }
 }
-.alert-success{
+.alert-success,.alert-danger{
     display: none;
 }
 
@@ -145,11 +154,13 @@ button#submitBeerButton {
     font-size: 1.1em;
     font-family: "Arial", sans-serif;
 }
-
+input[type=radio]{
+    margin-left: 25%;
+}
 #alertBox{
     margin-bottom: 50px;
 }
-#getLocationSpan{
+#getLocationSpan, #submitBeerButton{
     background-color: #337ab7;
     color: white;
     border-color: #2e6da4;
@@ -171,4 +182,12 @@ button#submitBeerButton {
     position: absolute;
     left: 6%;
     bottom: 0;
+}
+#tapButton:active {
+    /*transform: translateY(8vmin) translateX(15vmin) rotateZ(45deg);*/
+    transform: translateY(4vmin);
+    transition-duration: 1s;
+    transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+.subContainer {
+    margin: 5%;
 }

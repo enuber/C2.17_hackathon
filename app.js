@@ -1,29 +1,29 @@
 
-/**
+/*****
  *  Global Variables
- */
+ ****/
 /**
  * locationObj - Global Object to hold user's location
  * @type {object}
  *
  * yelp - Global Object that holds the response returned by a successful AJAX call to Yelp API
- *
  * @type {object}
  */
-var foodPairings;
+var foodPairings; //could be passed in as a param of foodPairingDomCreation
 var map;
 var infoWindow;
 var yelp = { coords: [] };
 var locationObj = {
     lat : null,
-    long : null
+    lng : null
 };
-var contactInfo = [];
+var contactInfo = []; //could be returned as a object in createContactInfo
 var markers = [];
 var geocoder;
-
+var origin = null;
+var destination = {};
 /**
- *
+ *  Creates Google Map object and Google Geocoder object
  */
 function initialize() {
     geocoder = new google.maps.Geocoder();
@@ -45,13 +45,12 @@ function initialize() {
 }
 
 /**
- *
+ *  Creates Contact Info object from the yelp AJAX call.  //Returns new contact?
  */
-
 function createContactInfo(response) {
     console.log(response);
     for (var i=0; i<response.businesses.length; i++) {
-        var addressInfo = {}
+        var addressInfo = {};
         addressInfo.name = response.businesses[i].name;
         addressInfo.address = response.businesses[i].location.address[0];
         addressInfo.city = response.businesses[i].location.city;
@@ -67,16 +66,19 @@ function createContactInfo(response) {
 }
 
 /**
- * Creates markers on the map
- *
+ * Creates markers on the map, stores into global markers
  */
-
 function createMarker(response) {
     createContactInfo(response);
+    //brian
+    // var image="http://emojipedia-us.s3.amazonaws.com/cache/bb/cc/bbcc10a5639af93ab107cc2349700533.png"
+    var image="images/beer.png";
+    //brian
     for (var i = 0; i < yelp.coords.length; i++) {
         var coordinates = yelp.coords[i];
         var marker = new google.maps.Marker({
             map: map,
+            icon: image,
             position: coordinates,
             animation: google.maps.Animation.DROP,
             html:  '<div class="markerWindow">' +
@@ -85,13 +87,17 @@ function createMarker(response) {
             '<p>' + contactInfo[i].city + ', ' + contactInfo[i].state + ' ' + contactInfo[i].zip +'</p>' +
             '<p>' + contactInfo[i].phone + '</p>' +
             '<a target="_blank" href=' + contactInfo[i].url + '> reviews </a>' +
+            '<a class="directions">get directions</a>' +
             '</div>'
         });
         markers.push(marker);
         google.maps.event.addListener(marker, 'click', function() {
             infoWindow.setContent(this.html);
             infoWindow.open(map, this);
-            map.setCenter(marker.getPosition());
+            map.setCenter(this.getPosition());
+            (function(self) {
+                destination = self.position;
+            })(this);
         });
 
         google.maps.event.addListener(map, 'click', function(){
@@ -101,9 +107,8 @@ function createMarker(response) {
 }
 
 /**
- * Removes all markers from the map
+ * Removes all markers from the map, empties global markers
  */
-
 function clearMarkers() {
     for (var m in markers) {
         markers[m].setMap(null)
@@ -112,11 +117,11 @@ function clearMarkers() {
 }
 
 /**
- * Gets
+ * Gets the location the user specifies and centers map on that location.  Stores user location to a global
  */
-
 function codeAddress() {
     var address = $(".address").val();
+    origin = address;
     geocoder.geocode({'address': address}, function(results, status){
         if (status == 'OK'){
             map.setCenter(results[0].geometry.location);
@@ -134,12 +139,11 @@ function codeAddress() {
 }
 
 /**
- *  Get the current location of the user and center map on that location, if the user allows
+ *  Get the current location of the user and center map on that location (if the user allows).  Stores user location to a global
  */
-
 function getLocation() {
     if (navigator.geolocation) {
-        //@todo: disable submit button
+        $('#submitBeerButton').addClass('disabled').off('click',submitBeerSelection);
         var geoSuccess = function (position) {
             var pos = {
                 lat: position.coords.latitude,
@@ -148,8 +152,9 @@ function getLocation() {
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
             locationObj = {};
             locationObj.lat = pos.lat;
-            locationObj.long = pos.lng;
-            //@todo: enable submit button
+            locationObj.lng = pos.lng;
+            $('#submitBeerButton').removeClass('disabled').on('click',submitBeerSelection);
+
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
@@ -157,14 +162,21 @@ function getLocation() {
     }
 }
 
+
+/**
+ *  Get directions from users current location to their destination marker on the map.
+ */
+var directionsDisplay = new google.maps.DirectionsRenderer();
+
 function getDirections(origin, destination) {
     var directionsService = new google.maps.DirectionsService();
-    var directionsDisplay = new google.maps.DirectionsRenderer(),
-        request = { origin: origin,
+    var request = { origin: origin,
             destination: destination,
             travelMode: 'DRIVING'
         };
+    directionsDisplay.setMap(null);
     directionsDisplay.setMap(map);
+    directionsDisplay.setDirections({routes: []});
     directionsService.route(request, function(result, status) {
        if (status == 'OK') {
            directionsDisplay.setDirections(result);
@@ -172,12 +184,11 @@ function getDirections(origin, destination) {
     });
 }
 
-//Donald's Yelp Code
 /** @summary Does an AJAX call on the Yelp API and assigns the response to the global var 'yelp'
  *
  * Yelp searches require only a location, either as a string, or latitude and longitude.
- * All other parameters and properties are optional.
- * The location parameter passed in will be either a string or an object; whichever the user inputted last
+ * The location parameter passed in will be either a string or an object; whichever the user inputted last.
+ * All other parameters and properties are optional. Currently, no other parameters are passed in, but the functionality works
  *
  * This function sets the global var 'yelp' to the response object. "yelp['coords']" contains an array of
  * all the latitudes and longitudes of all the businesses in the response.
@@ -190,14 +201,16 @@ function getDirections(origin, destination) {
  *              keywords:   "Stout Beer"
  *
  **/
-
 function callYelp(keywords, location){
     var searchQuery = {
         term: keywords
     };
-    if (typeof location === "object" && location.lat != null && location.long != null){
+    if (typeof location === "object" && location.lat != null && location.lng != null){
         searchQuery.latitude = location.lat;
-        searchQuery.longitude = location.long;
+
+        searchQuery.longitude = location.lng;
+        searchQuery.sort_by = 'distance'
+
     } else {
         searchQuery.location = location;
     }
@@ -218,6 +231,12 @@ function callYelp(keywords, location){
             }
             clearMarkers();
             createMarker(response);
+            $('#map').on("click", ".directions", function() {
+                if (origin === null) {
+                    origin = locationObj;
+                }
+                getDirections(origin, destination);
+            });
         },
         error: function (error) {
             console.log("error: ", error);
@@ -228,11 +247,13 @@ function callYelp(keywords, location){
 /**
  *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
  */
-
 function getYelpKeyword(){
     return $('input:checked').attr('yelpKeyWord');
 }
 
+/**
+ * Creates the google map and geocoder, applies all click handlers, displays the modal
+ */
 function startUp () {
     initialize();
     applyClickHandlers();
@@ -242,6 +263,9 @@ $(document).ready(function(){
     startUp();
 });
 
+/**
+ * Calls BreweryDB API to get the Food Pairings
+ */
 function callFoodPairings() {
     var beerSelected = $('input:checked').val();
     $.ajax({
@@ -265,7 +289,18 @@ function callFoodPairings() {
     });
 }
 
+/**
+ *  calls BreweryDB API and Yelp API with user selected data.
+ */
 function submitBeerSelection(){
+    //brian
+    if (locationObj.lat === null){
+        $('.alert-danger').css('display','block');
+    } else{
+        $('#submitBeerButton').attr('data-dismiss', 'modal');
+    }
+
+    //brian
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     callFoodPairings();
@@ -278,24 +313,30 @@ function submitBeerSelection(){
 //     $('#domContainer').html('');
 // }
 
+/**
+ * Applies all click handlers
+ */
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
 //  $('#beginSearch').click(findYourBeerInit);
 //  $('#getLocationButton').click(getLocation);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
-    $('#tapButton').click(modalDisplay);
+    $('#tapContainer').mouseup(modalDisplay);
     // $(".close").on("click", function(){
     //     alert("Please Enter A Location");
     // });
-    $('#findLocationButton').click(modalAlert);
+    $('#findLocationButton').click(modalAlert); //this can be a class
     $('#myModal').modal({
         backdrop: 'static',
         keyboard: false
-    })
-    $('#getLocationSpan').click(modalAlert);
+    });
+    $('#getLocationSpan').click(modalAlert); //this can be a class
 }
 
+/**
+ * Appends the data from the foodPairing AJAX call to the DOM
+ */
 function foodPairingDomCreation(){
     var $div = $('<div>',{
        text: foodPairings,
@@ -304,10 +345,24 @@ function foodPairingDomCreation(){
     $('#domContainer').append($div);
 }
 
+/**
+ * Displays the modal
+ */
 function modalDisplay() {
     $('.alert-success').css('display','none');
     $("#myModal").modal();
 }
+
+/**
+ * Displays the alert inside the modal
+ */
 function modalAlert(){
-    $('.alert-success').css('display','block');
+    if (locationObj.lng === null){
+        $('.alert-danger').css('display', 'block');
+    } else{
+        $('.alert-danger').css('display','none');
+        $('.alert-success').css('display','block');
+
+    }
 }
+//brian end
