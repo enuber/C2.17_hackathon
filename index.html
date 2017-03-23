@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beer Informer</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDubEdvWZUOZX4jOrSXvXFxdtH3Xpuaonw"></script>
+    <script src="app.js"></script>
+
+</head>
+<body>
+
+ <!--<button type="button" class="currentLoc">Get Current Location</button>-->
+<!--<input class="address" type="text" value="enter address">-->
+<!--<input class="submit" type="submit" value="Submit">-->
+
+
+    <div id="mainContainer">
+        <button id="beginSearch">Find Your Beer</button>
+        <div id="modalContainer">
+            <div id="searchContainer">
+                <input id="locationInput" class="address">
+                <button id="findLocationButtont" class ="submit">Send</button>
+                <br>
+                <button type="button" class="currentLoc">Get Current Location</button>
+
+            </div>
+            <div id="beerSelectContainer">
+                <br>
+                <input type="radio" value="American%20IPA" yelpValue="Ipa+Beer" name="beerStyle" class="beerSelector" checked="checked"/>
+                India Pale Ale/IPA
+                <br>
+                <input type="radio" value="Amber" name="beerStyle" yelpValue="Amber+Ale+Beer" class="beerSelector"/>
+                Amber Ale
+                <br>
+                <input type="radio" value="Robust%20Porter" name="beerStyle" yelpValue="Porter+Beer" class="beerSelector"/>
+                Porter
+                <br>
+                <input type="radio" value="American%20Lager" name="beerStyle" yelpValue="Lager+Beer" class="beerSelector"/>
+                Lager
+                <br>
+                <input type="radio" value="Stout" name="beerStyle" yelpValue="Stout+Beer" class="beerSelector"/>
+                Stout
+                <br>
+                <input type="radio" value="Belgian%20Dubbel" name="beerStyle" yelpValue="Belgium+Beer" class="beerSelector"/>
+                Belgium Beer
+                <br>
+                <input type="radio" value="Imperial%20IPA" name="beerStyle" yelpValue="double+IPA+Beer" class="beerSelector"/>
+                Imperial IPA
+                <br>
+                <button id="submitBeerButton">Submit</button>
+            </div>
+        </div>
+        <div id="map">
+        </div>
+    </div>
+</body>
+</html>
