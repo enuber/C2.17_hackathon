@@ -12,10 +12,37 @@
 </head>
 <body>
     <div id="mainContainer">
+        <button id="beginSearch">Find Your Beer</button>
         <div id="modalContainer">
-            <input id="locationInput"/>
-            <button id="findLocationButton">Search</button>
-            <input type="checkbox"
+            <div id="searchContainer">
+                <input id="locationInput"/>
+                <button id="findLocationButton">Search</button>
+            </div>
+            <div id="beerSelectContainer">
+                <br>
+                <input type="radio" value="American%20IPA" yelpValue="Ipa+Beer" name="beerStyle" class="beerSelector" checked="checked"/>
+                India Pale Ale/IPA
+                <br>
+                <input type="radio" value="Amber" name="beerStyle" yelpValue="Amber+Ale+Beer" class="beerSelector"/>
+                Amber Ale
+                <br>
+                <input type="radio" value="Robust%20Porter" name="beerStyle" yelpValue="Porter+Beer" class="beerSelector"/>
+                Porter
+                <br>
+                <input type="radio" value="American%20Lager" name="beerStyle" yelpValue="Lager+Beer" class="beerSelector"/>
+                Lager
+                <br>
+                <input type="radio" value="Stout" name="beerStyle" yelpValue="Stout+Beer" class="beerSelector"/>
+                Stout
+                <br>
+                <input type="radio" value="Belgian%20Dubbel" name="beerStyle" yelpValue="Belgium+Beer" class="beerSelector"/>
+                Belgium Beer
+                <br>
+                <input type="radio" value="Imperial%20IPA" name="beerStyle" yelpValue="double+IPA+Beer" class="beerSelector"/>
+                Imperial IPA
+                <br>
+                <button id="submitBeerButton">Submit</button>
+            </div>
         </div>
         <div id="map">
 

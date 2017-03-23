@@ -95,6 +95,7 @@ function getLocation() {
 $(document).ready(function(){
     getLocation();
     initialize();
+    applyClickHandlers();
 
 });
 
@@ -117,11 +118,12 @@ $(document).ready(function(){
 //     });
 // }
 
-
+//
 function callFoodPairings() {
+    var beerSelected = $('input:checked').val();
     $.ajax({
         data: {
-            url: 'http://api.brewerydb.com/v2/beers?key=075d4da050ae5fd39db3ded4fd982c92&name=Imperial%20IPA'
+            url: 'http://api.brewerydb.com/v2/beers?key=075d4da050ae5fd39db3ded4fd982c92&name=' + beerSelected
         },
         url: 'serverProxy/proxy.php',
         method: 'GET',
@@ -137,5 +139,19 @@ function callFoodPairings() {
             console.log('error')
         }
     });
+}
+function submitBeerSelection(){
+    $('#modalContainer').css('display','none');
+    $('#beginSearch').css('display','initial');
+    callFoodPairings();
+
+}
+function findYourBeerInit(){
+    $('#modalContainer').css('display','initial');
+    $('#beginSearch').css('display','none');
+}
+function applyClickHandlers(){
+    $('#submitBeerButton').click(submitBeerSelection);
+    $('#beginSearch').click(findYourBeerInit);
 }
 
