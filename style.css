@@ -20,6 +20,21 @@ div#searchContainer {
     margin: 5%;
     text-align: center;
 }
+#titleContainer {
+    height: 8%;
+    left: 33%;
+    position: absolute;
+    font-weight: bold;
+    letter-spacing: 2vmin;
+    font-size: 5vmin;
+    font-family: 'Rock Salt', cursive;
+    top: 7%;
+    background-color: rgba(76, 69, 69, 0.55);
+    color: #cfcbcb;
+    width: 34%;
+    text-align: center;
+    border-radius: 5px;
+}
 #map {
     height: 35vw;
     width: 35vw;
@@ -62,4 +77,20 @@ button#beginSearch {
     color: white;
     right: 4%;
     width: 20%;
+}
+.currentLoc {
+    margin: 25% 0 0 0;
+}
+#submitBeerButton {
+    bottom: 14%;
+    position: absolute;
+    height: 15vh;
+    width: 20vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(http://www.clipartbest.com/cliparts/4i9/odz/4i9odzg6T.svg);
+    left: 25%;
+}
+#submitBeerButton:hover {
+    cursor: pointer;
 }

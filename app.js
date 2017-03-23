@@ -134,6 +134,9 @@ function callYelp(keywords, location){
     });
 }
 var yelp = { coords: [] };
+var yelpKeyWord;
+var endLocation;
+// Move callYelp into the submitBeerFunction
 callYelp("tonkotsu ramen", "Torrance, CA");
 
 function startUp () {
@@ -170,6 +173,7 @@ function submitBeerSelection(){
     // $('#modalContainer').css('display','none');
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
+    yelpKeyWord = $('input:checked').attr('yelpKeyWord');
     callFoodPairings();
 
 
