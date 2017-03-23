@@ -2,5 +2,4 @@
 
 readfile($_GET['url']);
 
-
 ?>
