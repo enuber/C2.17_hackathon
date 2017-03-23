@@ -5,9 +5,9 @@ $ch = curl_init('https://api.yelp.com/v3/businesses/search?term=delis&latitude=3
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 // set headers
 //$headers = [];
-//foreach(($_GET['headers']) as $key=>$value){
-//    $headers[] = "$key: $value";
-//}
+foreach(($_GET['headers']) as $key=>$value){
+    $headers[] = "$key: $value";
+}
 //curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 $response['data'] = curl_exec($ch);

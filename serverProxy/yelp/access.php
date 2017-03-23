@@ -28,11 +28,11 @@ require_once('yelp.config.php');
 
 
 $API_HOST = 'api.yelp.com';
+$SEARCH_PATH = '/v2/search/';
+$SEARCH_LIMIT = 5;
 $DEFAULT_TERM = 'beer';
 $DEFAULT_LOCATION = 'Irvine, CA';
-$SEARCH_LIMIT = 5;
-$SEARCH_PATH = '/v2/search/';
-//$BUSINESS_PATH = '/v2/business/';
+
 
 
 /** 
@@ -101,30 +101,16 @@ function request($host, $path) {
  * @return   The JSON response from the request 
  */
 function search($term, $location, $filters) {
-    $url_params = array();
+    $url_params = $filters;
 
-    $url_params['term'] = $term ?: $GLOBALS['DEFAULT_TERM'];
-    $url_params['location'] = $location?: $GLOBALS['DEFAULT_LOCATION'];
-    $url_params['limit'] = $filters['limit']?: $GLOBALS['SEARCH_LIMIT'];
-    $url_params['sort_by'] = $filters['sort_by'];
-    $url_params['price'] = $filters['price'];
+    $url_params['term'] = empty($url_params['term']) ? $GLOBALS['DEFAULT_TERM'] : $url_params['term'];
+    $url_params['location'] = empty($url_params['location']) ? $GLOBALS['DEFAULT_LOCATION'] : $url_params['location'];
+    $url_params['limit'] = empty($url_params['limit']) ? $GLOBALS['SEARCH_LIMIT'] : $url_params['limit'];
 
     $search_path = $GLOBALS['SEARCH_PATH'] . "?" . http_build_query($url_params);
 
     return request($GLOBALS['API_HOST'], $search_path);
 }
-
-/**
- * Query the Business API by business_id
- * 
- * @param    $business_id    The ID of the business to query
- * @return   The JSON response from the request 
- */
-//function get_business($business_id) {
-//    $business_path = $GLOBALS['BUSINESS_PATH'] . urlencode($business_id);
-//
-//    return request($GLOBALS['API_HOST'], $business_path);
-//}
 
 /**
  * Queries the API by the input values from the user 
@@ -134,18 +120,6 @@ function search($term, $location, $filters) {
  */
 function query_api($term, $location, $filters) {
     $response = json_decode(search($term, $location, $filters));
-
-//    $business_id = $response->businesses[0]->id;
-//
-//    print sprintf(
-//        "%d businesses found, querying business info for the top result \"%s\"\n\n",
-//        count($response->businesses),
-//        $business_id
-//    );
-//
-//    $response = get_business($business_id);
-//
-//    print sprintf("Result for business \"%s\" found:\n", $business_id);
     print json_encode($response);
 }
 
@@ -161,10 +135,13 @@ $options = getopt("", $longopts);
 
 $term = $_GET['term'] ?: '';
 $location = $_GET['location'] ?: '';
+unset($_GET['term']);  unset($_GET['location']);
+
 $filters = array();
-$filters['sort_by'] = $_GET['sort_by'] ?: '';
-$filters['price'] = $_GET['price'] ?: '';
-$filters['limit'] = $_GET['limit'] ?: '';
+foreach($_GET as $filterName => $filterValue){
+    $filters[$filterName] = $filterValue;
+}
+
 
 
 query_api($term, $location, $filters);

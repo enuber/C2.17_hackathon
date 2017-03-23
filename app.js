@@ -125,16 +125,21 @@ $(document).ready(function(){
 //http://api.brewerydb.com/v2/styles
 
 //Donald's Yelp Code
-/** @summary To do a Yelp Search, pass in parameters as key:value pairs through the data object
+/** @summary Does an AJAX call on the Yelp API and assigns the response to the global var 'yelp'
  *
  * Yelp searches require only a location, either as a string, or latitude and longitude.
- * All other parameters and properties are optional, but also follow same key/value pair format.
- * @param       location:   {string}
- * @param       keywords:   {string}
+ * All other parameters and properties are optional.
  *
- * @example1     location:   "Irvine, CA"
- * @example2     latitude: 33.6698849,
- *               longitude: -117.7862341
+ * The global var 'yelp' is a copy of the response object. "yelp['coords']" contains an array of
+ * all the latitudes and longitudes of all the businesses in the response.
+ *
+ * @param       keywords:   {string} Search Terms
+ * @param       location:   {string} address, neighborhood, city, state or zip, optional country
+ *                          {object} Latitude, Longitude
+ *
+ * @example     location:   "Irvine, CA"
+ *              keywords:   "Stout Beer"
+ *
  **/
 function callYelp(keywords, location){
     // if (typeof location === "object" && !isNaN(location.lat) && !isNaN(location.long)){
@@ -167,9 +172,5 @@ function callYelp(keywords, location){
         }
     });
 }
-var yelp = {
-    coords: [],
-    restaurants: [],
-    region: {}
-};
+var yelp = { coords: [] };
 callYelp("tonkotsu ramen", "Torrance, CA");
