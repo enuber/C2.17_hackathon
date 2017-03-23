@@ -1,5 +1,5 @@
 <?php
 
-readfile($_POST['url']);
+readfile($_GET['url']);
 
 ?>
