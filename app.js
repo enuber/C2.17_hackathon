@@ -158,6 +158,7 @@ function callFoodPairings() {
                     foodPairings = result.data[i].foodPairings;
                 }
             }
+            foodPairingDomCreation();
         },
         error: function () {
             console.log('error')
@@ -169,7 +170,7 @@ function submitBeerSelection(){
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     callFoodPairings();
-    setTimeout(foodPairingDomCreation,1400);
+
 
 }
 function findYourBeerInit(){
