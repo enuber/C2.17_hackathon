@@ -5,6 +5,10 @@ var infoWindow;
 var request;
 var service;
 var markers = [];
+var coordinates = {
+    lat: 33.6305353,
+    long: -117.74319
+};
 
 function initialize() {
     var center = new google.maps.LatLng(33.633985, 117.733393);
@@ -72,6 +76,7 @@ function clearResults(markers) {
 
 
 function getLocation() {
+    var coordinates = {};
     if (navigator.geolocation) {
         // var startPos;
         var geoSuccess = function (position) {
@@ -79,6 +84,8 @@ function getLocation() {
                 lat : position.coords.latitude,
                 lng : position.coords.longitude
             };
+            coordinates.lat = pos.lat;
+            coordinates.long = pos.lng;
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
 
             // startPos = position;
@@ -89,30 +96,61 @@ function getLocation() {
     } else {
         console.log("Geolocation is not supported for this Browser/OS");
     }
-};
+    return coordinates;
+}
 
 
 $(document).ready(function(){
-    getLocation();
-    initialize();
+    // getLocation();
+    // initialize();
 
 });
 
-$.ajax({
-    data: {
-        url: 'http://api.brewerydb.com/v2/styles?key=075d4da050ae5fd39db3ded4fd982c92'
-    },
-    url: "serverProxy/proxy.php",
-    method: "POST",
-    dataType: 'json',
-    success: function(result){
-        for (var i=0; i<result.data.length; i++) {
-            console.log(result.data[i].shortName);
-        }
-    },
-    error: function(){
-        console.log('error');
-    }
-});
+// $.ajax({
+//     data: {
+//         url: 'http://api.brewerydb.com/v2/styles?key=075d4da050ae5fd39db3ded4fd982c92'
+//     },
+//     url: "serverProxy/proxy.php",
+//     method: "GET",
+//     dataType: 'json',
+//     success: function(result){
+//         for (var i=0; i<result.data.length; i++) {
+//             console.log(result.data[i].shortName);
+//         }
+//     },
+//     error: function(){
+//         console.log('error');
+//     }
+// });
 //http://api.brewerydb.com/v2/styles
 
+//Donald's Yelp Code
+/** @summary To do a Yelp Search, pass in parameters as key:value pairs through the data object
+ *
+ * Yelp searches require only a location, either as a string, or latitude and longitude.
+ * All other parameters and properties are optional, but also follow same key/value pair format.
+ * @param       location:   {string}
+ * @param       keywords:   {string}
+ *
+ * @example1     location:   "beer"
+ * @example2     latitude: 33.6698849,
+ *               longitude: -117.7862341
+ **/
+function callYelp(keywords, location){
+    $.ajax({
+        data: {
+            "term": keywords,
+            "location": location
+        },
+        url: "serverProxy/yelp/access.php",
+        method: "GET",
+        dataType: 'json',
+        success: function (yelp) {
+            console.log("success: ", yelp);
+        },
+        error: function (error) {
+            console.log("error: ", error);
+        }
+    });
+}
+callYelp("tonkotsu ramen", "Torrance, CA");
