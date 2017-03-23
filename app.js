@@ -16,6 +16,9 @@ var locationObj = {
     lng : null
 };
 var contactInfo = []; //could be returned as a object in createContactInfo
+/**
+ * Global Google Entities
+ */
 var map;
 var geocoder;
 var infoWindow;
@@ -207,10 +210,8 @@ function callYelp(keywords, location){
     };
     if (typeof location === "object" && location.lat != null && location.lng != null){
         searchQuery.latitude = location.lat;
-
         searchQuery.longitude = location.lng;
-        searchQuery.sort_by = 'distance'
-
+        // searchQuery.sort_by = 'distance'
     } else {
         searchQuery.location = location;
     }
