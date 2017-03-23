@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beer Informer</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDubEdvWZUOZX4jOrSXvXFxdtH3Xpuaonw"></script>
@@ -20,7 +21,7 @@
         <div class="row">
             <div id="modalContainer">
                 <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog">
                         <div class="modal-content">
                             <!--<div class="modal-header">-->
                                 <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
@@ -28,15 +29,15 @@
                             <!--</div>-->
                             <div class="modal-body">
                                 <div class="searchContainer">
-                                    <input type="text" id="locationInput" class="address form-control" placeholder="Enter A Location">
-                                    <button type="button" id="findLocationButton" class="btn btn-primary submit form-control">Set Location</button>
-                                    <!--<div class="orPick">-->
-                                        <!--<h4>Or Grab Your Location Below</h4>-->
-                                    <!--</div>-->
-                                    <div class="alert alert-success">
-                                        <strong>Success!</strong> This alert box could indicate a successful or positive action.
+                                    <div class="input-group">
+                                        <input type="text" id="locationInput" class="address form-control" placeholder="Enter A Location">
+                                        <span class="input-group-addon" id="getLocationSpan"><i id="getLocationButton"class="glyphicon glyphicon-screenshot currentLoc mt-1"></i></span>
+
                                     </div>
-                                    <button type="button" id="getLocationButton" class="btn btn-success currentLoc mt-1 form-control">Get Location</button>
+                                    <button type="button" id="findLocationButton" class="btn btn-primary submit form-control">Set Location</button>
+                                    <div id="alertBox" class="alert alert-success">
+                                        <strong>Success!</strong> Your location has been set, now select your beer style!
+                                    </div>
                                 </div>
                                 <div id="beerSelectContainer">
                                 <!--<form>-->
@@ -62,9 +63,12 @@
                                     <input type="radio" value="Imperial%20IPA" name="beerStyle" yelpKeyWord="double IPA Beer" class="beerSelector"/>
                                     Imperial IPA
                                     <br>
-                                    <button type="button" id="submitBeerButton" class="btn btn-default btn-lg" data-dismiss="modal">Submit Beer Style</button>
+                                    <!--<button type="button" id="submitBeerButton" class="btn btn-default btn-lg" data-dismiss="modal">Submit Beer Style</button>-->
                                 <!--</form>-->
 
+                                </div>
+                                <div>
+                                    <button type="button" id="submitBeerButton" class="btn btn-default form-control" data-dismiss="modal">Submit Beer Style</button>
                                 </div>
                             </div>
                         <!--<div class="modal-footer">-->
@@ -76,10 +80,11 @@
             </div>
         </div>
         <div class="row" id="mapContainer">
-            <div class="col-md-6 col-md-offset-3 clearfix" id="map"></div>
+            <div class="col-md-6 col-md-offset-3" id="map"></div>
 
             <!--<div class="domFoodPair"></div> &lt;!&ndash;is this DOM creation?&ndash;&gt;-->
         </div>
+        <div id="tapButton"></div>
         <div class="row" id="domContainer">
             <!--<div class="col-sm-6" id="map"></div>-->
         </div>
