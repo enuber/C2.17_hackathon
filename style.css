@@ -26,14 +26,15 @@ body{
     /*text-align: center;*/
 /*}*/
 #titleContainer {
-    /*height: 8%;*/
+    margin: 1% 0 5% 0;
+    /* height: 8%; */
     left: 33%;
-    /*position: absolute;*/
+    /* position: absolute; */
     font-weight: bold;
-    letter-spacing: 2vmin;
-    font-size: 5vmin;
+    letter-spacing: 3vmin;
+    font-size: 4vmin;
     font-family: 'Rock Salt', cursive;
-    /*top: 7%;*/
+    /* top: 7%; */
     background-color: rgba(76, 69, 69, 0.55);
     color: #cfcbcb;
     width: 34%;
@@ -41,15 +42,7 @@ body{
     text-align: center;
     border-radius: 5px;
 }
-#map {
-    /*height: 35vw;*/
-    /*width: 35vw;*/
-    /*position: absolute;*/
-    bottom: 5%;
-    /*left: 32.5%;*/
-    border-radius: 5px;
-    opacity: 0.7;
-}
+
 /*button#submitBeerButton {*/
     /*font-size: 2vmin;*/
     /*!*margin: ;*!*/
@@ -74,7 +67,7 @@ button#beginSearch {
     /*width: 20vw;*/
 }
 .domFoodPair {
-    top: 12.5%;
+    /*top: 12.5%;*/
     /*position: absolute;*/
     /*height: 75%;*/
     background-color: rgba(171,169,171,0.45);
@@ -82,7 +75,7 @@ button#beginSearch {
     padding: 3% 1%;
     border-radius: 10px;
     color: white;
-    right: 4%;
+    /*right: 4%;*/
     width: 20%;
 }
 .currentLoc {
@@ -99,16 +92,16 @@ button#submitBeerButton {
     /*position: relative;*/
 }
 #mapContainer{
-    height: 35vh;
-    width: 100%;
-    margin: 0;
+    height: 57vh;
+    /*width: 80%;*/
     /*position: relative;*/
 }
 #map{
-    width: 100%;
     height:100%;
-    /*position: absolute;*/
     overflow: inherit;
+    bottom: 5%;
+    border-radius: 5px;
+    opacity: 0.7;
 }
 .modal {
     /*text-align:center;*/
@@ -139,9 +132,6 @@ button#submitBeerButton {
         height: 600px;
     }
 }
-#submitBeerButton:hover {
-    cursor: pointer;
-}
 .alert-success{
     display: none;
 }
@@ -160,4 +150,13 @@ button#submitBeerButton {
     #mainContainer{
         font-size: 16px;
     }
+#tapButton {
+    height: 44vmin;
+    background-image: url(images/beertap.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 22vmin;
+    position: absolute;
+    left: 6%;
+    bottom: 0;
 }
