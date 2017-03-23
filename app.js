@@ -2,15 +2,25 @@
 var map;
 var infoWindow;
 
+var currentLat = null;
+var currentLng = null;
 var request;
 var service;
 var markers = [];
 
 function initialize() {
-    var center = new google.maps.LatLng(33.633985, 117.733393);
+    var center = new google.maps.LatLng(37.09024, -100.712891);
     map = new google.maps.Map(document.getElementById('map'), {
         center: center,
-        zoom: 13
+        zoom: 5,
+        panControl: false,
+        mapTypeControl: false,
+        zoomControl: true,
+        streetViewControl: false,
+        zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.LARGE,
+            position: google.maps.ControlPosition.TOP_RIGHT
+        }
     });
 
     request = {
@@ -20,7 +30,7 @@ function initialize() {
         keyword: "starbucks"
     };
 
-    infoWindow = new google.maps.InfoWindow();
+    infoWindow = new google.maps.InfoWindow();  // can add content here
 
     service = new google.maps.places.PlacesService(map);
 
@@ -73,30 +83,31 @@ function clearResults(markers) {
 
 function getLocation() {
     if (navigator.geolocation) {
-        // var startPos;
         var geoSuccess = function (position) {
             var pos = {
                 lat : position.coords.latitude,
                 lng : position.coords.longitude
             };
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
-
-            // startPos = position;
-            // document.getElementById('startLat').innerHTML = startPos.coords.latitude;
-            // document.getElementById('startLon').innerHTML = startPos.coords.longitude;
+            currentLat = pos.lat;
+            currentLng = pos.lng;
         };
+
+
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
         console.log("Geolocation is not supported for this Browser/OS");
     }
 };
 
-
-$(document).ready(function(){
-    getLocation();
+function startUp () {
+    $(".currentLoc").click(getLocation);
     initialize();
     applyClickHandlers();
+}
 
+$(document).ready(function(){
+    startUp();
 });
 
 // function callBeerStyle() {
@@ -154,4 +165,5 @@ function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
     $('#beginSearch').click(findYourBeerInit);
 }
+
 
