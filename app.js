@@ -1,15 +1,13 @@
 
 var map;
 var infoWindow;
-
 var locationObj = {
-    currentLat: null,
-    currentLng: null,
-}
-var request;
-var service;
+    lat : null,
+    long : null
+};
 var markers = [];
 var geocoder;
+var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
 
 function initialize() {
     geocoder = new google.maps.Geocoder();
@@ -24,57 +22,25 @@ function initialize() {
         zoomControlOptions: {
             style: google.maps.ZoomControlStyle.LARGE,
             position: google.maps.ControlPosition.TOP_RIGHT
-        }
+        },
+        scaleControl: true
     });
-
-    request = {
-        location: center,
-        radius: 8047,
-        types: ['cafe'],
-        keyword: "starbucks"
-    };
 
     infoWindow = new google.maps.InfoWindow();  // can add content here
-
-    service = new google.maps.places.PlacesService(map);
-
-    service.nearbySearch(request, callback);
-
-    google.maps.event.addListener(map, 'rightclick', function(event){
-        map.setCenter(event.latLng);
-        clearResults(markers);
-
-        var request = {
-            location : event.latLng,
-            radius: 8047,
-            types : ['cafe'],
-            keyword: 'starbucks'
-        };
-
-        service.nearbySearch(request, callback);
-    })
 }
-
-function callback(results, status) {
-    if (status == google.maps.places.PlacesServiceStatus.OK) {611
-        for (var i = 0; i < results.length; i++) {
-            markers.push(createMarker(results[i]));
-        }
+function createMarker() {
+    for (var i = 0; i < tempCoors.length; i++) {
+        var coordinates = tempCoors[i];
+        var marker = new google.maps.Marker({
+            map: map,
+            position: coordinates
+        });
+        markers.push(marker);
     }
-}
-
-function createMarker(place) {
-    var placeLoc = place.geometry.location;
-    var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-    });
-
     google.maps.event.addListener(marker, 'click', function() {
         infoWindow.setContent(place.name);
         infoWindow.open(map, this);
     });
-    return marker;
 }
 
 function clearResults(markers) {
@@ -83,6 +49,7 @@ function clearResults(markers) {
     }
     markers = [];
 }
+
 function codeAddress() {
     var address = $(".address").val();
     geocoder.geocode({'address': address}, function(results, status){
@@ -98,7 +65,6 @@ function codeAddress() {
     })
 }
 
-
 function getLocation() {
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
@@ -107,15 +73,16 @@ function getLocation() {
                 lng : position.coords.longitude
             };
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
-            locationObj.currentLat = pos.lat;
-            locationObj.currentLng = pos.lng;
+            locationObj.lat = pos.lat;
+            locationObj.long = pos.lng;
         };
 
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
         console.log("Geolocation is not supported for this Browser/OS");
     }
-};
+}
+
 function startUp () {
     initialize();
     applyClickHandlers();
@@ -123,8 +90,6 @@ function startUp () {
 $(document).ready(function(){
     startUp();
 });
-
-
 var foodPairings;
 function callFoodPairings() {
     var beerSelected = $('input:checked').val();
