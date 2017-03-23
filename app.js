@@ -4,6 +4,7 @@ var locationObj = {
     lat : null,
     long : null
 };
+var contactInfo = [];
 var markers = [];
 var geocoder;
 // var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
@@ -27,19 +28,45 @@ function initialize() {
 
     infoWindow = new google.maps.InfoWindow();  // can add content here
 }
-function createMarker() {
+function createContactInfo(response) {
+    console.log(response);
+    for (var i=0; i<response.businesses.length; i++) {
+        var addressInfo = {}
+        addressInfo.name = response.businesses[i].name;
+        addressInfo.address = response.businesses[i].location.address[0];
+        addressInfo.city = response.businesses[i].location.city;
+        addressInfo.state = response.businesses[i].location.state_code;
+        addressInfo.zip = response.businesses[i].location.postal_code;
+        addressInfo.phone = response.businesses[i].display_phone;
+        addressInfo.phone = addressInfo.phone.substring(1);
+        addressInfo.url = response.businesses[i].url;
+        contactInfo.push(addressInfo);
+    }
+}
+
+function createMarker(response) {
+    createContactInfo(response);
     for (var i = 0; i < yelp.coords.length; i++) {
         var coordinates = yelp.coords[i];
         var marker = new google.maps.Marker({
             map: map,
-            position: coordinates
+            position: coordinates,
+            html:  '<div class="markerWindow">' +
+            '<h1>' + contactInfo[i].name + '</h1>' +
+            '<p>' + contactInfo[i].address + '</p>' +
+            '<p>' + contactInfo[i].city + ', ' + contactInfo[i].state + ' ' + contactInfo[i].zip +'</p>' +
+            '<p>' + contactInfo[i].phone + '</p>' +
+            '<a target="_blank" href=' + contactInfo[i].url + '> website </a>' +
+            '</div>'
         });
+
         markers.push(marker);
+        google.maps.event.addListener(marker, 'click', function() {
+            infoWindow.setContent(this.html);
+            infoWindow.open(map, this);
+        });
     }
-    google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.setContent();
-        infoWindow.open(map, this);
-    });
+
 }
 
 function clearMarkers() {
@@ -127,7 +154,7 @@ function callYelp(keywords, location){
                 console.log(yelp.coords[i]);
             }
             clearMarkers();
-            createMarker();
+            createMarker(response);
         },
         error: function (error) {
             console.log("error: ", error);
