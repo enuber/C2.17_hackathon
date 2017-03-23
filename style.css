@@ -81,6 +81,16 @@ button#beginSearch {
 .currentLoc {
     margin: 25% 0 0 0;
 }
-button#submitBeerButton {
-    margin: 36%;
+#submitBeerButton {
+    bottom: 14%;
+    position: absolute;
+    height: 15vh;
+    width: 20vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(http://www.clipartbest.com/cliparts/4i9/odz/4i9odzg6T.svg);
+    left: 25%;
+}
+#submitBeerButton:hover {
+    cursor: pointer;
 }
