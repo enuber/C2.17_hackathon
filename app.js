@@ -16,12 +16,13 @@ var infoWindow;
 var yelp = { coords: [] };
 var locationObj = {
     lat : null,
-    long : null
+    lng : null
 };
 var contactInfo = [];
 var markers = [];
 var geocoder;
-
+var origin = null;
+var destination = {};
 /**
  *
  */
@@ -58,7 +59,7 @@ function createContactInfo(response) {
         addressInfo.state = response.businesses[i].location.state_code;
         addressInfo.zip = response.businesses[i].location.postal_code;
         addressInfo.phone = response.businesses[i].display_phone;
-        if (addressInfo.phone != '') {
+        if (addressInfo.phone != undefined) {
             addressInfo.phone = addressInfo.phone.substring(1);
         }
         addressInfo.url = response.businesses[i].url;
@@ -85,13 +86,17 @@ function createMarker(response) {
             '<p>' + contactInfo[i].city + ', ' + contactInfo[i].state + ' ' + contactInfo[i].zip +'</p>' +
             '<p>' + contactInfo[i].phone + '</p>' +
             '<a target="_blank" href=' + contactInfo[i].url + '> reviews </a>' +
+            '<a class="directions">get directions</a>' +
             '</div>'
         });
         markers.push(marker);
         google.maps.event.addListener(marker, 'click', function() {
             infoWindow.setContent(this.html);
             infoWindow.open(map, this);
-            map.setCenter(marker.getPosition());
+            map.setCenter(this.getPosition());
+            (function(self) {
+                destination = self.position;
+            })(this);
         });
 
         google.maps.event.addListener(map, 'click', function(){
@@ -117,6 +122,7 @@ function clearMarkers() {
 
 function codeAddress() {
     var address = $(".address").val();
+    origin = address;
     geocoder.geocode({'address': address}, function(results, status){
         if (status == 'OK'){
             map.setCenter(results[0].geometry.location);
@@ -148,7 +154,7 @@ function getLocation() {
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
             locationObj = {};
             locationObj.lat = pos.lat;
-            locationObj.long = pos.lng;
+            locationObj.lng = pos.lng;
             //@todo: enable submit button
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
@@ -195,9 +201,9 @@ function callYelp(keywords, location){
     var searchQuery = {
         term: keywords
     };
-    if (typeof location === "object" && location.lat != null && location.long != null){
+    if (typeof location === "object" && location.lat != null && location.lng != null){
         searchQuery.latitude = location.lat;
-        searchQuery.longitude = location.long;
+        searchQuery.longitude = location.lng;
     } else {
         searchQuery.location = location;
     }
@@ -218,13 +224,19 @@ function callYelp(keywords, location){
             }
             clearMarkers();
             createMarker(response);
+            $('#map').on("click", ".directions", function() {
+                if (origin === null) {
+                    origin = locationObj;
+                }
+                getDirections(origin, destination);
+            });
         },
         error: function (error) {
             console.log("error: ", error);
         }
     });
 }
-callYelp("okonomiyaki hiroshima",'Torrance, CA');
+// callYelp("okonomiyaki hiroshima",'Torrance, CA');
 /**
  *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
  */
