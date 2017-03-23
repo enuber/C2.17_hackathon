@@ -231,23 +231,22 @@ function callFoodPairings() {
     });
 }
 function submitBeerSelection(){
-    // $('#modalContainer').css('display','none');
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     callFoodPairings();
     callYelp(getYelpKeyword(),locationObj);
 
 }
-function findYourBeerInit(){
-    $('#modalContainer').css('display','initial');
-    $('#beginSearch').css('display','none');
-    $('#domContainer').html('');
-}
+// function findYourBeerInit(){
+//     $('#modalContainer').css('display','initial');
+//     $('#beginSearch').css('display','none');
+//     $('#domContainer').html('');
+// }
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
-    $('#beginSearch').click(findYourBeerInit);
 
-//     $('#getLocationButton').click(getLocation);
+//  $('#beginSearch').click(findYourBeerInit);
+//  $('#getLocationButton').click(getLocation);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
     $('#titleContainer').click(modalDisplay);
@@ -264,15 +263,12 @@ function applyClickHandlers(){
 }
 function foodPairingDomCreation(){
     var $div = $('<div>',{
-        text: foodPairings,
-        class: "domFoodPair"
+       text: foodPairings,
+       class: "domFoodPair col-xs-8 col-sm-5 pull-right"
     });
     $('#domContainer').append($div);
 }
 
-// var imageContainer = {
-//
-// }
 function modalDisplay() {
     $("#myModal").modal();
 }
