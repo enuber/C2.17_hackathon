@@ -2,17 +2,21 @@
 var map;
 var infoWindow;
 
-var currentLat = null;
-var currentLng = null;
+var locationObj = {
+    currentLat = null;
+    currentLng = null;
+}
 var request;
 var service;
 var markers = [];
+var geocoder;
 
 function initialize() {
+    geocoder = new google.maps.Geocoder();
     var center = new google.maps.LatLng(37.09024, -100.712891);
     map = new google.maps.Map(document.getElementById('map'), {
         center: center,
-        zoom: 5,
+        zoom: 13,
         panControl: false,
         mapTypeControl: false,
         zoomControl: true,
@@ -80,6 +84,21 @@ function clearResults(markers) {
     markers = [];
 }
 
+function codeAddress() {
+    var address = $(".address").val();
+    geocoder.geocode({'address': address}, function(results, status){
+        if (status == 'OK'){
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: reults[0].geometry.location
+            });
+        } else {
+            alert("Geocode was not successful for the following reason: " + status);
+        }
+    })
+}
+
 
 function getLocation() {
     if (navigator.geolocation) {
@@ -89,10 +108,9 @@ function getLocation() {
                 lng : position.coords.longitude
             };
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
-            currentLat = pos.lat;
-            currentLng = pos.lng;
+            locationObj.currentLat = pos.lat;
+            locationObj.currentLng = pos.lng;
         };
-
 
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
@@ -101,7 +119,6 @@ function getLocation() {
 };
 
 function startUp () {
-    $(".currentLoc").click(getLocation);
     initialize();
     applyClickHandlers();
 }
@@ -164,6 +181,8 @@ function findYourBeerInit(){
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
     $('#beginSearch').click(findYourBeerInit);
+    $(".currentLoc").click(getLocation);
+    $(".submit").click(codeAddress);
 }
 
 
