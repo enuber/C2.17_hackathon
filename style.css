@@ -135,6 +135,17 @@ button#submitBeerButton {
 .alert-success{
     display: none;
 }
+
+.markerWindow h1 {
+    font-size: 2.0em;
+    font-family: "Arial", sans-serif;
+}
+.markerWindow p,
+.markerWindow a {
+    font-size: 1.1em;
+    font-family: "Arial", sans-serif;
+}
+
 #alertBox{
     margin-bottom: 50px;
 }
