@@ -1,5 +1,65 @@
-html, body, #map {
+html, body, #mainContainer {
     height: 100%;
     margin: 0px;
     padding: 0px;
+}
+#mainContainer{
+    position: relative;
+}
+#modalContainer {
+    height: 75%;
+    position: absolute;
+    background-color: rgba(171,169,171,0.45);
+    left: 4%;
+    top: 12.5%;
+    z-index: 1;
+    width: 20%;
+    border-radius: 5px;
+}
+div#searchContainer {
+    margin: 5%;
+    text-align: center;
+}
+#map {
+    height: 35vw;
+    width: 35vw;
+    position: absolute;
+    bottom: 10%;
+    left: 32.5%;
+    border-radius: 1000px;
+    opacity: 0.7;
+}
+button#submitBeerButton {
+    font-size: 2vmin;
+    /*margin: ;*/
+}
+div#beerSelectContainer {
+    font-size: 2vmin;
+    font-family: arial, sans-serif;
+    margin: 20% 10%;
+}
+body{
+    background-image: url('http://renoriver.org/wp-content/uploads/2014/02/beer-copy.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+button#beginSearch {
+    margin: 2%;
+    display: none;
+}
+#domContainer {
+    height: 20vw;
+    width: 20vw;
+}
+.domFoodPair {
+    top: 12.5%;
+    position: absolute;
+    height: 75%;
+    background-color: rgba(171,169,171,0.45);
+    font-size: 2vmin;
+    padding: 3% 1%;
+    border-radius: 10px;
+    color: white;
+    right: 4%;
+    width: 20%;
 }
