@@ -101,28 +101,28 @@ function getLocation() {
 
 
 $(document).ready(function(){
-    // getLocation();
-    // initialize();
+    getLocation();
+    initialize();
 
 });
 
-// $.ajax({
-//     data: {
-//         url: 'http://api.brewerydb.com/v2/styles?key=075d4da050ae5fd39db3ded4fd982c92'
-//     },
-//     url: "serverProxy/proxy.php",
-//     method: "GET",
-//     dataType: 'json',
-//     success: function(result){
-//         for (var i=0; i<result.data.length; i++) {
-//             console.log(result.data[i].shortName);
-//         }
-//     },
-//     error: function(){
-//         console.log('error');
-//     }
-// });
-//http://api.brewerydb.com/v2/styles
+$.ajax({
+    data: {
+        url: 'http://api.brewerydb.com/v2/styles?key=075d4da050ae5fd39db3ded4fd982c92'
+    },
+    url: "serverProxy/proxy.php",
+    method: "GET",
+    dataType: 'json',
+    success: function(result){
+        for (var i=0; i<result.data.length; i++) {
+            console.log(result.data[i].shortName);
+        }
+    },
+    error: function(){
+        console.log('error');
+    }
+});
+http://api.brewerydb.com/v2/styles
 
 //Donald's Yelp Code
 /** @summary Does an AJAX call on the Yelp API and assigns the response to the global var 'yelp'
