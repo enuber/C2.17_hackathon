@@ -66,12 +66,15 @@ function codeAddress() {
 }
 
 function getLocation() {
+    var coordinates = {};
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
                 lat : position.coords.latitude,
                 lng : position.coords.longitude
             };
+            coordinates.lat = pos.lat;
+            coordinates.long = pos.lng;
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
             locationObj.lat = pos.lat;
             locationObj.long = pos.lng;
@@ -81,6 +84,56 @@ function getLocation() {
         console.log("Geolocation is not supported for this Browser/OS");
     }
 }
+//Donald's Yelp Code
+/** @summary Does an AJAX call on the Yelp API and assigns the response to the global var 'yelp'
+ *
+ * Yelp searches require only a location, either as a string, or latitude and longitude.
+ * All other parameters and properties are optional.
+ *
+ * The global var 'yelp' is a copy of the response object. "yelp['coords']" contains an array of
+ * all the latitudes and longitudes of all the businesses in the response.
+ *
+ * @param       keywords:   {string} Search Terms
+ * @param       location:   {string} address, neighborhood, city, state or zip, optional country
+ *                          {object} Latitude, Longitude
+ *
+ * @example     location:   "Irvine, CA"
+ *              keywords:   "Stout Beer"
+ *
+ **/
+function callYelp(keywords, location){
+    // if (typeof location === "object" && !isNaN(location.lat) && !isNaN(location.long)){
+    //     long;
+    // }
+    $.ajax({
+        data: {
+            "term": keywords,
+            "location": location,
+            "limit": 11,
+            "latitude": -25.363,
+            "longitude": 131.044
+        },
+        url: "serverProxy/yelp/access.php",
+        method: "GET",
+        dataType: 'json',
+        success: function (response) {
+            console.log("success: ", response);
+            console.log(response.businesses.length);
+            console.log(response.businesses[0].name);
+            yelp = response;
+            yelp.coords = [];
+            for (var i = 0;i < response.businesses.length; i++){
+                yelp.coords[i] = response.businesses[i].location.coordinate;
+                console.log(response.businesses[i].location.coordinate);
+            }
+        },
+        error: function (error) {
+            console.log("error: ", error);
+        }
+    });
+}
+var yelp = { coords: [] };
+callYelp("tonkotsu ramen", "Torrance, CA");
 
 function startUp () {
     initialize();
@@ -105,6 +158,7 @@ function callFoodPairings() {
                     foodPairings = result.data[i].foodPairings;
                 }
             }
+            foodPairingDomCreation();
         },
         error: function () {
             console.log('error')
@@ -116,7 +170,7 @@ function submitBeerSelection(){
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     callFoodPairings();
-    setTimeout(foodPairingDomCreation,1400);
+
 
 }
 function findYourBeerInit(){
