@@ -174,9 +174,8 @@ function getDirections(origin, destination) {
             destination: destination,
             travelMode: 'DRIVING'
         };
-    directionsDisplay.setMap(null);
+    // directionsDisplay.setMap(null);
     directionsDisplay.setMap(map);
-    // directionsDisplay.setDirections({routes: []});
     directionsService.route(request, function(result, status) {
        if (status == 'OK') {
            directionsDisplay.setDirections(result);
@@ -351,6 +350,7 @@ function foodPairingDomCreation(){
 function modalDisplay() {
     $('.alert-success').css('display','none');
     $("#myModal").modal();
+
 }
 
 /**
