@@ -76,7 +76,6 @@ function getLocation() {
             locationObj.lat = pos.lat;
             locationObj.long = pos.lng;
         };
-
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
         console.log("Geolocation is not supported for this Browser/OS");
@@ -139,6 +138,6 @@ function foodPairingDomCreation(){
     $('#domContainer').append($div);
 }
 
-var imageContainer = {
-
-}
+// var imageContainer = {
+//
+// }
