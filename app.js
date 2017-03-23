@@ -15,12 +15,13 @@ var infoWindow;
 var yelp = { coords: [] };
 var locationObj = {
     lat : null,
-    long : null
+    lng : null
 };
 var contactInfo = []; //could be returned as a object in createContactInfo
 var markers = [];
 var geocoder;
-
+var origin = null;
+var destination = {};
 /**
  *  Creates Google Map object and Google Geocoder object
  */
@@ -86,13 +87,17 @@ function createMarker(response) {
             '<p>' + contactInfo[i].city + ', ' + contactInfo[i].state + ' ' + contactInfo[i].zip +'</p>' +
             '<p>' + contactInfo[i].phone + '</p>' +
             '<a target="_blank" href=' + contactInfo[i].url + '> reviews </a>' +
+            '<a class="directions">get directions</a>' +
             '</div>'
         });
         markers.push(marker);
         google.maps.event.addListener(marker, 'click', function() {
             infoWindow.setContent(this.html);
             infoWindow.open(map, this);
-            map.setCenter(marker.getPosition());
+            map.setCenter(this.getPosition());
+            (function(self) {
+                destination = self.position;
+            })(this);
         });
 
         google.maps.event.addListener(map, 'click', function(){
@@ -116,6 +121,7 @@ function clearMarkers() {
  */
 function codeAddress() {
     var address = $(".address").val();
+    origin = address;
     geocoder.geocode({'address': address}, function(results, status){
         if (status == 'OK'){
             map.setCenter(results[0].geometry.location);
@@ -146,8 +152,9 @@ function getLocation() {
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
             locationObj = {};
             locationObj.lat = pos.lat;
-            locationObj.long = pos.lng;
+            locationObj.lng = pos.lng;
             $('#submitBeerButton').removeClass('disabled').on('click',submitBeerSelection);
+
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
@@ -155,17 +162,21 @@ function getLocation() {
     }
 }
 
+
 /**
  *  Get directions from users current location to their destination marker on the map.
  */
+var directionsDisplay = new google.maps.DirectionsRenderer();
+
 function getDirections(origin, destination) {
     var directionsService = new google.maps.DirectionsService();
-    var directionsDisplay = new google.maps.DirectionsRenderer(),
-        request = { origin: origin,
+    var request = { origin: origin,
             destination: destination,
             travelMode: 'DRIVING'
         };
+    directionsDisplay.setMap(null);
     directionsDisplay.setMap(map);
+    directionsDisplay.setDirections({routes: []});
     directionsService.route(request, function(result, status) {
        if (status == 'OK') {
            directionsDisplay.setDirections(result);
@@ -194,10 +205,12 @@ function callYelp(keywords, location){
     var searchQuery = {
         term: keywords
     };
-    if (typeof location === "object" && location.lat != null && location.long != null){
+    if (typeof location === "object" && location.lat != null && location.lng != null){
         searchQuery.latitude = location.lat;
-        searchQuery.longitude = location.long;
+
+        searchQuery.longitude = location.lng;
         searchQuery.sort_by = 'distance'
+
     } else {
         searchQuery.location = location;
     }
@@ -218,6 +231,12 @@ function callYelp(keywords, location){
             }
             clearMarkers();
             createMarker(response);
+            $('#map').on("click", ".directions", function() {
+                if (origin === null) {
+                    origin = locationObj;
+                }
+                getDirections(origin, destination);
+            });
         },
         error: function (error) {
             console.log("error: ", error);
