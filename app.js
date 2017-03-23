@@ -167,6 +167,7 @@ function callYelp(keywords, location){
     if (typeof location === "object" && location.lat != null && location.long != null){
         searchQuery.latitude = location.lat;
         searchQuery.longitude = location.long;
+        searchQuery.sort_by = 'distance'
     } else {
         searchQuery.location = location;
     }
