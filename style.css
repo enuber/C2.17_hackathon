@@ -3,6 +3,7 @@ html, body, #mainContainer {
     width: 100vw;
     margin: 0;
     padding: 0;
+    font-size: 3vh;
 }
 body{
     position: fixed;
@@ -81,7 +82,7 @@ button#beginSearch {
     margin: 25% 0 0 0;
 }
 button#submitBeerButton {
-    margin: 5%;
+    /*margin: 5%;*/
 }
 /**brian*/
 #domContainer{
@@ -103,7 +104,7 @@ button#submitBeerButton {
     opacity: 0.7;
 }
 .modal {
-    text-align:center;
+    /*text-align:center;*/
 }
 .modal-dialog {
     display: inline-block;
@@ -116,28 +117,39 @@ button#submitBeerButton {
     text-align: center;
     margin-bottom: 5%;
 }
-.btn-primary, .btn-success{
-    width: 50vw;
-}
-@media screen and (min-width: 768px) {
+
+@media (min-width: 768px) {
     .modal:before {
         display: inline-block;
         vertical-align: middle;
         content: " ";
         height: 100%;
     }
-    .modal-lg{
-        width: 500px;
+    .modal-dialog{
+        width: 600px;
     }
-}
-@media screen and (min-width: 992px) {
-    .modal-lg {
-        width: 500px;
+    .modal-content{
+        height: 600px;
     }
 }
 .alert-success{
     display: none;
 }
+#alertBox{
+    margin-bottom: 50px;
+}
+#getLocationSpan{
+    background-color: #337ab7;
+    color: white;
+    border-color: #2e6da4;
+}
+#findLocationButton{
+    margin-bottom: 50px;
+}
+@media only screen and (orientation: landscape){
+    #mainContainer{
+        font-size: 16px;
+    }
 #tapButton {
     height: 44vmin;
     background-image: url(images/beertap.png);

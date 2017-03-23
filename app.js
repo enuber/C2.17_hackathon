@@ -272,6 +272,7 @@ function applyClickHandlers(){
         backdrop: 'static',
         keyboard: false
     })
+    $('#getLocationSpan').click(modalAlert);
 }
 
 function foodPairingDomCreation(){
