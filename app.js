@@ -61,7 +61,11 @@ function createContactInfo(response) {
     }
 }
 /**
+<<<<<<< HEAD
  * Creates markers on the map
+=======
+ *
+>>>>>>> 60254c1ef8fb09e6be19ec6294f89b96fe24ea46
  */
 function createMarker(response) {
     createContactInfo(response);
@@ -190,7 +194,10 @@ function callYelp(keywords, location){
         }
     });
 }
+<<<<<<< HEAD
 callYelp("okonomiyaki hiroshima",'Torrance, CA');
+=======
+>>>>>>> 60254c1ef8fb09e6be19ec6294f89b96fe24ea46
 /**
  *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
  */
