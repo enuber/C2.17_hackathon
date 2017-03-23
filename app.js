@@ -255,9 +255,15 @@ function applyClickHandlers(){
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
     $('#titleContainer').click(modalDisplay);
-    $(".close").on("click", function(){
-        alert("Please Enter A Location");
-    });
+    // $(".close").on("click", function(){
+    //     alert("Please Enter A Location");
+    // });
+    $('#findLocationButton').click(modalAlert);
+    $('#myModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    })
+
 
 }
 function foodPairingDomCreation(){
@@ -274,4 +280,7 @@ function foodPairingDomCreation(){
 function modalDisplay() {
     $("#myModal").modal();
 
+}
+function modalAlert(){
+    $('.alert-success').css('display','block');
 }
