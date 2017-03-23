@@ -5,7 +5,7 @@ var infoWindow;
 var locationObj = {
     currentLat : null,
     currentLng : null
-}
+};
 var request;
 var service;
 var markers = [];
@@ -24,7 +24,8 @@ function initialize() {
         zoomControlOptions: {
             style: google.maps.ZoomControlStyle.LARGE,
             position: google.maps.ControlPosition.TOP_RIGHT
-        }
+        },
+        scaleControl: true
     });
 
     request = {
@@ -146,7 +147,7 @@ $(document).ready(function(){
 //     });
 // }
 
-//
+var foodPairings;
 function callFoodPairings() {
     var beerSelected = $('input:checked').val();
     $.ajax({
@@ -159,7 +160,7 @@ function callFoodPairings() {
         success: function (result) {
             for (var i = 0; i < result.data.length; i++) {
                 if (result.data[i].foodPairings !== undefined) {
-                    console.log(result.data[i].foodPairings);
+                    foodPairings = result.data[i].foodPairings;
                 }
             }
         },
