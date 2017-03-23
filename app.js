@@ -224,7 +224,7 @@ function callYelp(keywords, location){
         }
     });
 }
-callYelp("okonomiyaki hiroshima",'Torrance, CA');
+
 /**
  *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
  */
