@@ -64,14 +64,13 @@ function codeAddress() {
         }
     })
 }
-
 function getLocation() {
     var coordinates = {};
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
-                lat : position.coords.latitude,
-                lng : position.coords.longitude
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
             };
             coordinates.lat = pos.lat;
             coordinates.long = pos.lng;
@@ -79,7 +78,6 @@ function getLocation() {
             locationObj.lat = pos.lat;
             locationObj.long = pos.lng;
         };
-
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
         console.log("Geolocation is not supported for this Browser/OS");
@@ -161,6 +159,7 @@ function callFoodPairings() {
                     foodPairings = result.data[i].foodPairings;
                 }
             }
+            foodPairingDomCreation();
         },
         error: function () {
             console.log('error')
@@ -172,7 +171,7 @@ function submitBeerSelection(){
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     callFoodPairings();
-    setTimeout(foodPairingDomCreation,1400);
+
 
 }
 function findYourBeerInit(){
@@ -194,6 +193,6 @@ function foodPairingDomCreation(){
     $('#domContainer').append($div);
 }
 
-var imageContainer = {
-
-};
+// var imageContainer = {
+//
+// }
