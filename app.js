@@ -176,7 +176,7 @@ function getDirections(origin, destination) {
         };
     directionsDisplay.setMap(null);
     directionsDisplay.setMap(map);
-    directionsDisplay.setDirections({routes: []});
+    // directionsDisplay.setDirections({routes: []});
     directionsService.route(request, function(result, status) {
        if (status == 'OK') {
            directionsDisplay.setDirections(result);
@@ -322,7 +322,7 @@ function applyClickHandlers(){
 //  $('#getLocationButton').click(getLocation);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
-    $('#tapContainer').mouseup(modalDisplay);
+    $('#tapButton').click(modalDisplay);
     // $(".close").on("click", function(){
     //     alert("Please Enter A Location");
     // });
