@@ -26,28 +26,6 @@ function initialize() {
             position: google.maps.ControlPosition.TOP_RIGHT
         }
     });
-    //brian
-    var geocoder = new google.maps.Geocoder();
-
-    document.getElementById('submit').addEventListener('click', function() {
-        geocodeAddress(geocoder, map);
-    });
-}
-
-function geocodeAddress(geocoder, resultsMap) {
-    var address = document.getElementById('address').value;
-    debugger
-    geocoder.geocode({'address': address}, (function(results, status) {
-        if (status === 'OK') {
-            resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-                map: resultsMap,
-                position: results[0].geometry.location
-            });
-        } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-        }
-    })());
     //brian create search box and link it to the element
     // var input = document.getElementById('pac-input');
     // var searchBox = new google.maps.places.SearchBox(input);
