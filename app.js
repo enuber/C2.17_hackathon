@@ -81,6 +81,7 @@ function codeAddress() {
                 map: map,
                 position: results[0].geometry.location
             });
+            locationObj = address;
         } else {
             alert("Geocode was not successful for the following reason: " + status);
         }
@@ -100,6 +101,7 @@ function getLocation() {
             coordinates.lat = pos.lat;
             coordinates.long = pos.lng;
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
+            locationObj = {};
             locationObj.lat = pos.lat;
             locationObj.long = pos.lng;
         };
