@@ -6,16 +6,16 @@ html, body, #mainContainer {
 #mainContainer{
     position: relative;
 }
-#modalContainer {
-    height: 75%;
-    position: absolute;
-    background-color: rgba(171,169,171,0.45);
-    left: 4%;
-    top: 12.5%;
-    z-index: 1;
-    width: 20%;
-    border-radius: 5px;
-}
+/*#modalContainer {*/
+    /*height: 75%;*/
+    /*position: absolute;*/
+    /*background-color: rgba(171,169,171,0.45);*/
+    /*left: 4%;*/
+    /*top: 12.5%;*/
+    /*z-index: 1;*/
+    /*width: 20%;*/
+    /*border-radius: 5px;*/
+/*}*/
 div#searchContainer {
     margin: 5%;
     text-align: center;
@@ -84,4 +84,12 @@ button#beginSearch {
 }
 button#submitBeerButton {
     margin: 36%;
+}
+/**brian*/
+.modal {
+    text-align:center;
+}
+.modal-dialog {
+    display: inline-block;
+    width: auto;
 }

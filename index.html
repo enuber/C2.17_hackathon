@@ -14,7 +14,7 @@
 
 </head>
 <body>
-    <div id="container-fluid mainContainer">
+    <div id="container mainContainer">
         <!--<button id="beginSearch">Find Your Beer</button>-->
         <div id="titleContainer">Grab A Beer</div>
         <div id="modalContainer">
@@ -27,12 +27,16 @@
                         </div>
                         <div class="modal-body">
                             <div class="searchContainer">
-                                <input id="locationInput" class="address">
-                                <button type="button" id="findLocationButton" class="btn btn-primary submit">Send</button>
-                                <button type="button" id="getLocationButton" class="btn btn-success currentLoc mt-1">Get Location</button>
+                                <input type="text" id="locationInput" class="address form-control" placeholder="Enter A Location">
+                                <button type="button" id="findLocationButton" class="btn btn-primary submit form-control">Send</button>
+                                <div class="orPick">
+                                    <h4>Or Grab Your Location Below</h4>
+                                </div>
+                                <button type="button" id="getLocationButton" class="btn btn-success currentLoc mt-1 form-control">Get Location</button>
                             </div>
                             <div id="beerSelectContiner">
                                 <!--<form>-->
+                                <!--<div>-->
                                     <input type="radio" value="American%20IPA" yelpKeyWord="Ipa Beer" name="beerStyle" class="beerSelector" checked="checked"/>
                                     India Pale Ale/IPA
                                     <br>
@@ -59,9 +63,9 @@
 
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
+                        <!--<div class="modal-footer">-->
+                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                        <!--</div>-->
                     </div>
                 </div>
 
@@ -98,7 +102,7 @@
             </div>
         </div>
     </div>
-        <div class="container-fluid" id="domContainer">
+        <div class="container" id="domContainer">
             <div class="row">
                 <div id="map"></div>
             </div>
