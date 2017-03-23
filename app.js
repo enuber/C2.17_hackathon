@@ -61,11 +61,8 @@ function createContactInfo(response) {
     }
 }
 /**
-<<<<<<< HEAD
  * Creates markers on the map
-=======
  *
->>>>>>> 60254c1ef8fb09e6be19ec6294f89b96fe24ea46
  */
 function createMarker(response) {
     createContactInfo(response);
