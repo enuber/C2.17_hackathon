@@ -10,7 +10,7 @@
  *
  * @type {object}
  */
-
+var foodPairings;
 var map;
 var infoWindow;
 var yelp = { coords: [] };
@@ -41,12 +41,13 @@ function initialize() {
         },
         scaleControl: true
     });
-
     infoWindow = new google.maps.InfoWindow();  // can add content here
 }
+
 /**
  *
  */
+
 function createContactInfo(response) {
     console.log(response);
     for (var i=0; i<response.businesses.length; i++) {
@@ -64,9 +65,12 @@ function createContactInfo(response) {
         contactInfo.push(addressInfo);
     }
 }
+
 /**
+ * Creates markers on the map
  *
  */
+
 function createMarker(response) {
     createContactInfo(response);
     for (var i = 0; i < yelp.coords.length; i++) {
@@ -83,7 +87,6 @@ function createMarker(response) {
             '<a target="_blank" href=' + contactInfo[i].url + '> reviews </a>' +
             '</div>'
         });
-
         markers.push(marker);
         google.maps.event.addListener(marker, 'click', function() {
             infoWindow.setContent(this.html);
@@ -95,20 +98,23 @@ function createMarker(response) {
             infoWindow.close();
         });
     }
-
 }
+
 /**
- *
+ * Removes all markers from the map
  */
+
 function clearMarkers() {
     for (var m in markers) {
         markers[m].setMap(null)
     }
     markers = [];
 }
+
 /**
- *
+ * Gets
  */
+
 function codeAddress() {
     var address = $(".address").val();
     geocoder.geocode({'address': address}, function(results, status){
@@ -126,11 +132,14 @@ function codeAddress() {
         }
     })
 }
+
 /**
  *  Get the current location of the user and center map on that location, if the user allows
  */
+
 function getLocation() {
     if (navigator.geolocation) {
+        //@todo: disable submit button
         var geoSuccess = function (position) {
             var pos = {
                 lat: position.coords.latitude,
@@ -140,6 +149,7 @@ function getLocation() {
             locationObj = {};
             locationObj.lat = pos.lat;
             locationObj.long = pos.lng;
+            //@todo: enable submit button
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
@@ -180,10 +190,10 @@ function getDirections(origin, destination) {
  *              keywords:   "Stout Beer"
  *
  **/
+
 function callYelp(keywords, location){
     var searchQuery = {
-        term: keywords,
-        limit: 11
+        term: keywords
     };
     if (typeof location === "object" && location.lat != null && location.long != null){
         searchQuery.latitude = location.lat;
@@ -214,9 +224,11 @@ function callYelp(keywords, location){
         }
     });
 }
+callYelp("okonomiyaki hiroshima",'Torrance, CA');
 /**
  *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
  */
+
 function getYelpKeyword(){
     return $('input:checked').attr('yelpKeyWord');
 }
@@ -229,7 +241,7 @@ function startUp () {
 $(document).ready(function(){
     startUp();
 });
-var foodPairings; //@todo place global at the top of the page
+
 function callFoodPairings() {
     var beerSelected = $('input:checked').val();
     $.ajax({
@@ -252,28 +264,27 @@ function callFoodPairings() {
         }
     });
 }
+
 function submitBeerSelection(){
-    // $('#modalContainer').css('display','none');
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
-    yelpKeyWord = $('input:checked').attr('yelpKeyWord');
     callFoodPairings();
     callYelp(getYelpKeyword(),locationObj);
+}
 
-}
-function findYourBeerInit(){
-    $('#modalContainer').css('display','initial');
-    $('#beginSearch').css('display','none');
-    $('#domContainer').html('');
-}
+// function findYourBeerInit(){
+//     $('#modalContainer').css('display','initial');
+//     $('#beginSearch').css('display','none');
+//     $('#domContainer').html('');
+// }
+
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
-    $('#beginSearch').click(findYourBeerInit);
-
-//     $('#getLocationButton').click(getLocation);
+//  $('#beginSearch').click(findYourBeerInit);
+//  $('#getLocationButton').click(getLocation);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
-    $('#titleContainer').click(modalDisplay);
+    $('#tapButton').click(modalDisplay);
     // $(".close").on("click", function(){
     //     alert("Please Enter A Location");
     // });
@@ -282,23 +293,19 @@ function applyClickHandlers(){
         backdrop: 'static',
         keyboard: false
     })
-
-
+    $('#getLocationSpan').click(modalAlert);
 }
+
 function foodPairingDomCreation(){
     var $div = $('<div>',{
        text: foodPairings,
-       class: "domFoodPair"
+       class: "domFoodPair col-xs-6 col-sm-6 pull-right"
     });
     $('#domContainer').append($div);
 }
 
-// var imageContainer = {
-//
-// }
 function modalDisplay() {
     $("#myModal").modal();
-
 }
 function modalAlert(){
     $('.alert-success').css('display','block');
