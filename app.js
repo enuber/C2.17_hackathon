@@ -163,14 +163,16 @@ function getLocation() {
     }
 }
 
+var directionsDisplay = new google.maps.DirectionsRenderer();
 function getDirections(origin, destination) {
     var directionsService = new google.maps.DirectionsService();
-    var directionsDisplay = new google.maps.DirectionsRenderer(),
-        request = { origin: origin,
+    var request = { origin: origin,
             destination: destination,
             travelMode: 'DRIVING'
         };
+    directionsDisplay.setMap(null);
     directionsDisplay.setMap(map);
+    directionsDisplay.setDirections({routes: []});
     directionsService.route(request, function(result, status) {
        if (status == 'OK') {
            directionsDisplay.setDirections(result);
