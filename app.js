@@ -10,7 +10,7 @@
  *
  * @type {object}
  */
-
+var foodPairings;
 var map;
 var infoWindow;
 var yelp = { coords: [] };
@@ -23,10 +23,11 @@ var markers = [];
 var geocoder;
 // var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
 
+/**
+ *
+ */
+
 function initialize() {
-    /**
-     *
-     */
     geocoder = new google.maps.Geocoder();
     var center = new google.maps.LatLng(37.09024, -100.712891);
     map = new google.maps.Map(document.getElementById('map'), {
@@ -42,12 +43,13 @@ function initialize() {
         },
         scaleControl: true
     });
-
     infoWindow = new google.maps.InfoWindow();  // can add content here
 }
+
 /**
  *
  */
+
 function createContactInfo(response) {
     console.log(response);
     for (var i=0; i<response.businesses.length; i++) {
@@ -63,9 +65,11 @@ function createContactInfo(response) {
         contactInfo.push(addressInfo);
     }
 }
+
 /**
  *
  */
+
 function createMarker(response) {
     createContactInfo(response);
     for (var i = 0; i < yelp.coords.length; i++) {
@@ -81,27 +85,29 @@ function createMarker(response) {
             '<a target="_blank" href=' + contactInfo[i].url + '> website </a>' +
             '</div>'
         });
-
         markers.push(marker);
         google.maps.event.addListener(marker, 'click', function() {
             infoWindow.setContent(this.html);
             infoWindow.open(map, this);
         });
     }
-
 }
+
 /**
  *
  */
+
 function clearMarkers() {
     for (var m in markers) {
         markers[m].setMap(null)
     }
     markers = [];
 }
+
 /**
  *
  */
+
 function codeAddress() {
     var address = $(".address").val();
     geocoder.geocode({'address': address}, function(results, status){
@@ -119,9 +125,11 @@ function codeAddress() {
         }
     })
 }
+
 /**
  *  Get the current location of the user and center map on that location, if the user allows
  */
+
 function getLocation() {
     var coordinates = {};
     if (navigator.geolocation) {
@@ -161,6 +169,7 @@ function getLocation() {
  *              keywords:   "Stout Beer"
  *
  **/
+
 function callYelp(keywords, location){
     var searchQuery = {
         term: keywords,
@@ -198,6 +207,7 @@ function callYelp(keywords, location){
 /**
  *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
  */
+
 function getYelpKeyword(){
     return $('input:checked').attr('yelpKeyWord');
 }
@@ -210,7 +220,7 @@ function startUp () {
 $(document).ready(function(){
     startUp();
 });
-var foodPairings; //@todo place global at the top of the page
+
 function callFoodPairings() {
     var beerSelected = $('input:checked').val();
     $.ajax({
@@ -233,27 +243,28 @@ function callFoodPairings() {
         }
     });
 }
+
 function submitBeerSelection(){
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     yelpKeyWord = $('input:checked').attr('yelpKeyWord');
     callFoodPairings();
     callYelp(getYelpKeyword(),locationObj);
-
 }
+
 // function findYourBeerInit(){
 //     $('#modalContainer').css('display','initial');
 //     $('#beginSearch').css('display','none');
 //     $('#domContainer').html('');
 // }
+
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
-
 //  $('#beginSearch').click(findYourBeerInit);
 //  $('#getLocationButton').click(getLocation);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
-    $('#titleContainer').click(modalDisplay);
+    $('#tapButton').click(modalDisplay);
     // $(".close").on("click", function(){
     //     alert("Please Enter A Location");
     // });
@@ -262,13 +273,12 @@ function applyClickHandlers(){
         backdrop: 'static',
         keyboard: false
     })
-
-
 }
+
 function foodPairingDomCreation(){
     var $div = $('<div>',{
        text: foodPairings,
-       class: "domFoodPair col-xs-8 col-sm-5 pull-right"
+       class: "domFoodPair col-xs-6 col-sm-6 pull-right"
     });
     $('#domContainer').append($div);
 }
