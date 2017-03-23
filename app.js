@@ -1,7 +1,7 @@
 
-/**
+/*****
  *  Global Variables
- */
+ ****/
 /**
  * locationObj - Global Object to hold user's location
  * @type {object}
@@ -232,6 +232,9 @@ function getYelpKeyword(){
     return $('input:checked').attr('yelpKeyWord');
 }
 
+/**
+ * Creates the google map and geocoder, applies all click handlers, displays the modal
+ */
 function startUp () {
     initialize();
     applyClickHandlers();
@@ -241,6 +244,9 @@ $(document).ready(function(){
     startUp();
 });
 
+/**
+ * Calls BreweryDB API to get the Food Pairings
+ */
 function callFoodPairings() {
     var beerSelected = $('input:checked').val();
     $.ajax({
@@ -264,6 +270,9 @@ function callFoodPairings() {
     });
 }
 
+/**
+ *  calls BreweryDB API and Yelp API with user selected data.
+ */
 function submitBeerSelection(){
     //brian
     if (locationObj.lat === null){
@@ -285,13 +294,16 @@ function submitBeerSelection(){
 //     $('#domContainer').html('');
 // }
 
+/**
+ * Applies all click handlers
+ */
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
 //  $('#beginSearch').click(findYourBeerInit);
 //  $('#getLocationButton').click(getLocation);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
-    $('#tapButton').click(modalDisplay);
+    $('#tapContainer').mouseup(modalDisplay);
     // $(".close").on("click", function(){
     //     alert("Please Enter A Location");
     // });
@@ -299,10 +311,13 @@ function applyClickHandlers(){
     $('#myModal').modal({
         backdrop: 'static',
         keyboard: false
-    })
+    });
     $('#getLocationSpan').click(modalAlert); //this can be a class
 }
 
+/**
+ * Appends the data from the foodPairing AJAX call to the DOM
+ */
 function foodPairingDomCreation(){
     var $div = $('<div>',{
        text: foodPairings,
@@ -311,13 +326,16 @@ function foodPairingDomCreation(){
     $('#domContainer').append($div);
 }
 
+/**
+ * Displays the modal
+ */
 function modalDisplay() {
     $("#myModal").modal();
 }
-// function modalAlert(){
-//     $('.alert-success').css('display','block');
-// }
-//brian start
+
+/**
+ * Displays the alert inside the modal
+ */
 function modalAlert(){
     if (locationObj.lng === null){
         $('.alert-danger').css('display', 'block');
