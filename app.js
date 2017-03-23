@@ -3,8 +3,8 @@ var map;
 var infoWindow;
 
 var locationObj = {
-    currentLat = null;
-    currentLng = null;
+    currentLat : null,
+    currentLng : null
 }
 var request;
 var service;
@@ -91,7 +91,7 @@ function codeAddress() {
             map.setCenter(results[0].geometry.location);
             var marker = new google.maps.Marker({
                 map: map,
-                position: reults[0].geometry.location
+                position: results[0].geometry.location
             });
         } else {
             alert("Geocode was not successful for the following reason: " + status);
