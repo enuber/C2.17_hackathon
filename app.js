@@ -139,7 +139,7 @@ callYelp("tonkotsu ramen", "Torrance, CA");
 function startUp () {
     initialize();
     applyClickHandlers();
-    modalDisplay()
+    modalDisplay();
 }
 $(document).ready(function(){
     startUp();
@@ -185,6 +185,11 @@ function applyClickHandlers(){
     $('#beginSearch').click(findYourBeerInit);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
+    $('#titleContainer').click(modalDisplay);
+    $(".close").on("click", function(){
+        alert("Please Enter A Location");
+    });
+
 }
 function foodPairingDomCreation(){
     var $div = $('<div>',{
@@ -199,4 +204,5 @@ function foodPairingDomCreation(){
 // }
 function modalDisplay() {
     $("#myModal").modal();
+
 }

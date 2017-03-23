@@ -1,10 +1,14 @@
 html, body, #mainContainer {
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+}
+body{
+    position: fixed;
 }
 #mainContainer{
-    position: relative;
+    /*position: relative;*/
 }
 /*#modalContainer {*/
     /*height: 75%;*/
@@ -16,43 +20,44 @@ html, body, #mainContainer {
     /*width: 20%;*/
     /*border-radius: 5px;*/
 /*}*/
-div#searchContainer {
-    margin: 5%;
-    text-align: center;
-}
+/*div#searchContainer {*/
+    /*margin: 5%;*/
+    /*text-align: center;*/
+/*}*/
 #titleContainer {
-    height: 8%;
+    /*height: 8%;*/
     left: 33%;
-    position: absolute;
+    /*position: absolute;*/
     font-weight: bold;
     letter-spacing: 2vmin;
     font-size: 5vmin;
     font-family: 'Rock Salt', cursive;
-    top: 7%;
+    /*top: 7%;*/
     background-color: rgba(76, 69, 69, 0.55);
     color: #cfcbcb;
     width: 34%;
+    height: 20%;
     text-align: center;
     border-radius: 5px;
 }
 #map {
-    height: 35vw;
-    width: 35vw;
-    position: absolute;
+    /*height: 35vw;*/
+    /*width: 35vw;*/
+    /*position: absolute;*/
     bottom: 5%;
-    left: 32.5%;
+    /*left: 32.5%;*/
     border-radius: 5px;
     opacity: 0.7;
 }
-button#submitBeerButton {
-    font-size: 2vmin;
-    /*margin: ;*/
-}
-div#beerSelectContainer {
-    font-size: 2vmin;
-    font-family: arial, sans-serif;
-    margin: 20% 10%;
-}
+/*button#submitBeerButton {*/
+    /*font-size: 2vmin;*/
+    /*!*margin: ;*!*/
+/*}*/
+/*div#beerSelectContainer {*/
+    /*font-size: 2vmin;*/
+    /*font-family: arial, sans-serif;*/
+    /*margin: 20% 10%;*/
+/*}*/
 body{
     background-image: url('http://renoriver.org/wp-content/uploads/2014/02/beer-copy.jpg');
     background-repeat: no-repeat;
@@ -64,12 +69,12 @@ button#beginSearch {
     display: none;
 }
 #domContainer {
-    height: 20vw;
-    width: 20vw;
+    /*height: 20vw;*/
+    /*width: 20vw;*/
 }
 .domFoodPair {
     top: 12.5%;
-    position: absolute;
+    /*position: absolute;*/
     /*height: 75%;*/
     background-color: rgba(171,169,171,0.45);
     font-size: 3vmin;
@@ -83,13 +88,51 @@ button#beginSearch {
     margin: 25% 0 0 0;
 }
 button#submitBeerButton {
-    margin: 36%;
+    margin: 5%;
 }
 /**brian*/
+#domContainer{
+    height: 20%;
+    width: 100%;
+    margin: 0;
+    /*position: relative;*/
+}
+#map{
+    width: 100%;
+    height:100%;
+    /*position: absolute;*/
+    overflow: inherit;
+}
 .modal {
     text-align:center;
 }
 .modal-dialog {
     display: inline-block;
     width: auto;
+}
+.searchContainer{
+    margin: 5%;
+}
+.form-control{
+    text-align: center;
+    margin-bottom: 5%;
+}
+.btn-primary, .btn-success{
+    width: 50vw;
+}
+@media screen and (min-width: 768px) {
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
+    .modal-lg{
+        width: 500px;
+    }
+}
+@media screen and (min-width: 992px) {
+    .modal-lg {
+        width: 500px;
+    }
 }
