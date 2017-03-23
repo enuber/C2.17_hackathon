@@ -64,14 +64,13 @@ function codeAddress() {
         }
     })
 }
-
 function getLocation() {
     var coordinates = {};
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
-                lat : position.coords.latitude,
-                lng : position.coords.longitude
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
             };
             coordinates.lat = pos.lat;
             coordinates.long = pos.lng;
