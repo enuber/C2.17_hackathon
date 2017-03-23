@@ -24,9 +24,6 @@ var geocoder;
 // var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
 
 function initialize() {
-    /**
-     *
-     */
     geocoder = new google.maps.Geocoder();
     var center = new google.maps.LatLng(37.09024, -100.712891);
     map = new google.maps.Map(document.getElementById('map'), {
@@ -64,6 +61,7 @@ function createContactInfo(response) {
     }
 }
 /**
+ * Creates markers on the map
  *
  */
 function createMarker(response) {
@@ -91,7 +89,7 @@ function createMarker(response) {
 
 }
 /**
- *
+ * Removes all markers from the map
  */
 function clearMarkers() {
     for (var m in markers) {
@@ -100,7 +98,7 @@ function clearMarkers() {
     markers = [];
 }
 /**
- *
+ * Gets
  */
 function codeAddress() {
     var address = $(".address").val();
@@ -123,19 +121,18 @@ function codeAddress() {
  *  Get the current location of the user and center map on that location, if the user allows
  */
 function getLocation() {
-    var coordinates = {};
     if (navigator.geolocation) {
+        //@todo: disable submit button
         var geoSuccess = function (position) {
             var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
-            coordinates.lat = pos.lat;
-            coordinates.long = pos.lng;
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
             locationObj = {};
             locationObj.lat = pos.lat;
             locationObj.long = pos.lng;
+            //@todo: enable submit button
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
@@ -163,8 +160,7 @@ function getLocation() {
  **/
 function callYelp(keywords, location){
     var searchQuery = {
-        term: keywords,
-        limit: 11
+        term: keywords
     };
     if (typeof location === "object" && location.lat != null && location.long != null){
         searchQuery.latitude = location.lat;
@@ -195,6 +191,7 @@ function callYelp(keywords, location){
         }
     });
 }
+callYelp("okonomiyaki hiroshima",'Torrance, CA');
 /**
  *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
  */
@@ -236,7 +233,6 @@ function callFoodPairings() {
 function submitBeerSelection(){
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
-    yelpKeyWord = $('input:checked').attr('yelpKeyWord');
     callFoodPairings();
     callYelp(getYelpKeyword(),locationObj);
 
@@ -275,7 +271,6 @@ function foodPairingDomCreation(){
 
 function modalDisplay() {
     $("#myModal").modal();
-
 }
 function modalAlert(){
     $('.alert-success').css('display','block');
