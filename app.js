@@ -1,15 +1,13 @@
 
 var map;
 var infoWindow;
-
 var locationObj = {
-    currentLat : null,
-    currentLng : null
-}
-var request;
-var service;
+    lat : null,
+    long : null
+};
 var markers = [];
 var geocoder;
+var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
 
 function initialize() {
     geocoder = new google.maps.Geocoder();
@@ -24,126 +22,25 @@ function initialize() {
         zoomControlOptions: {
             style: google.maps.ZoomControlStyle.LARGE,
             position: google.maps.ControlPosition.TOP_RIGHT
-        }
+        },
+        scaleControl: true
     });
-    //brian create search box and link it to the element
-    // var input = document.getElementById('pac-input');
-    // var searchBox = new google.maps.places.SearchBox(input);
-    // map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-    // map.addListener('bounds_changed', function(){
-    //     searchBox.setBounds(map.getBounds());
-    // });
-    // searchBox.addListener('places_changed', function(){
-    //     var places = searchBox.getPlaces();
-    //
-    //     if (places.length == 0) {
-    //         return;
-    //     }
-    //
-    //     // Clear out the old markers.
-    //     markers.forEach(function(marker) {
-    //         marker.setMap(null);
-    //     });
-    //     markers = [];
-    //
-    //     // For each place, get the icon, name and location.
-    //     var bounds = new google.maps.LatLngBounds();
-    //     places.forEach(function(place) {
-    //         if (!place.geometry) {
-    //             console.log("Returned place contains no geometry");
-    //             return;
-    //         }
-    //         // var icon = {
-    //         //     url: place.icon,
-    //         //     size: new google.maps.Size(71, 71),
-    //         //     origin: new google.maps.Point(0, 0),
-    //         //     anchor: new google.maps.Point(17, 34),
-    //         //     scaledSize: new google.maps.Size(25, 25)
-    //         // };
-    //
-    //         // Create a marker for each place.
-    //         markers.push(new google.maps.Marker({
-    //             map: map,
-    //             // icon: icon,
-    //             title: place.name,
-    //             position: place.geometry.location
-    //         }));
-    //
-    //         if (place.geometry.viewport) {
-    //             // Only geocodes have viewport.
-    //             bounds.union(place.geometry.viewport);
-    //         } else {
-    //             bounds.extend(place.geometry.location);
-    //         }
-    //     });
-    //     map.fitBounds(bounds);
-    // });
-    //end brian autocomplete code, trouble with geolocation
-    request = {
-        location: center,
-        radius: 8047,
-        types: ['cafe'],
-        keyword: "starbucks"
-    };
 
     infoWindow = new google.maps.InfoWindow();  // can add content here
-
-    service = new google.maps.places.PlacesService(map);
-
-    service.nearbySearch(request, callback);
-
-    google.maps.event.addListener(map, 'rightclick', function(event){
-        map.setCenter(event.latLng);
-        clearResults(markers);
-
-        var request = {
-            location : event.latLng,
-            radius: 8047,
-            types : ['cafe'],
-            keyword: 'starbucks'
-        };
-
-        service.nearbySearch(request, callback);
-    })
 }
-
-function callback(results, status) {
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-            markers.push(createMarker(results[i]));
-        }
+function createMarker() {
+    for (var i = 0; i < tempCoors.length; i++) {
+        var coordinates = tempCoors[i];
+        var marker = new google.maps.Marker({
+            map: map,
+            position: coordinates
+        });
+        markers.push(marker);
     }
-}
-//brian
-// function thisIsForYelp(place){
-//     var placeLoc = place.geometry.location;
-//     var image = 'http://emojipedia-us.s3.amazonaws.com/cache/bb/cc/bbcc10a5639af93ab107cc2349700533.png';
-//         // size: new google.maps.Size(100, 100)
-//     // };
-//     var beachMarker = new google.maps.Marker({
-//         position: place.geometry.location,
-//         map: map,
-//         // size: new google.maps.Size(20,32),
-//         icon: image
-//     });
-//     google.maps.event.addListener(beachMarker, 'click', function(){
-//         infoWindow.setContent(place.name);
-//         infoWindow.open(map,this);
-//     });
-//     return beachMarker;
-// }
-//brian
-function createMarker(place) {
-    var placeLoc = place.geometry.location;
-    var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-    });
     google.maps.event.addListener(marker, 'click', function() {
         infoWindow.setContent(place.name);
         infoWindow.open(map, this);
     });
-    return marker;
 }
 
 function clearResults(markers) {
@@ -152,6 +49,7 @@ function clearResults(markers) {
     }
     markers = [];
 }
+
 function codeAddress() {
     var address = $(".address").val();
     geocoder.geocode({'address': address}, function(results, status){
@@ -167,22 +65,75 @@ function codeAddress() {
     })
 }
 function getLocation() {
+    var coordinates = {};
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
+            coordinates.lat = pos.lat;
+            coordinates.long = pos.lng;
             map.setCenter(new google.maps.LatLng(pos.lat, pos.lng));
-            locationObj.currentLat = pos.lat;
-            locationObj.currentLng = pos.lng;
+            locationObj.lat = pos.lat;
+            locationObj.long = pos.lng;
         };
-
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
         console.log("Geolocation is not supported for this Browser/OS");
     }
-};
+}
+//Donald's Yelp Code
+/** @summary Does an AJAX call on the Yelp API and assigns the response to the global var 'yelp'
+ *
+ * Yelp searches require only a location, either as a string, or latitude and longitude.
+ * All other parameters and properties are optional.
+ *
+ * The global var 'yelp' is a copy of the response object. "yelp['coords']" contains an array of
+ * all the latitudes and longitudes of all the businesses in the response.
+ *
+ * @param       keywords:   {string} Search Terms
+ * @param       location:   {string} address, neighborhood, city, state or zip, optional country
+ *                          {object} Latitude, Longitude
+ *
+ * @example     location:   "Irvine, CA"
+ *              keywords:   "Stout Beer"
+ *
+ **/
+function callYelp(keywords, location){
+    // if (typeof location === "object" && !isNaN(location.lat) && !isNaN(location.long)){
+    //     long;
+    // }
+    $.ajax({
+        data: {
+            "term": keywords,
+            "location": location,
+            "limit": 11,
+            "latitude": -25.363,
+            "longitude": 131.044
+        },
+        url: "serverProxy/yelp/access.php",
+        method: "GET",
+        dataType: 'json',
+        success: function (response) {
+            console.log("success: ", response);
+            console.log(response.businesses.length);
+            console.log(response.businesses[0].name);
+            yelp = response;
+            yelp.coords = [];
+            for (var i = 0;i < response.businesses.length; i++){
+                yelp.coords[i] = response.businesses[i].location.coordinate;
+                console.log(response.businesses[i].location.coordinate);
+            }
+        },
+        error: function (error) {
+            console.log("error: ", error);
+        }
+    });
+}
+var yelp = { coords: [] };
+callYelp("tonkotsu ramen", "Torrance, CA");
+
 function startUp () {
     initialize();
     applyClickHandlers();
@@ -190,27 +141,7 @@ function startUp () {
 $(document).ready(function(){
     startUp();
 });
-
-// function callBeerStyle() {
-//     $.ajax({
-//         data: {
-//             url: 'http://api.brewerydb.com/v2/styles?key=075d4da050ae5fd39db3ded4fd982c92'
-//         },
-//         url: "serverProxy/proxy.php",
-//         method: "GET",
-//         dataType: 'json',
-//         success: function (result) {
-//             for (var i = 0; i < result.data.length; i++) {
-//                 console.log(result.data[i].shortName);
-//             }
-//         },
-//         error: function () {
-//             console.log('error');
-//         }
-//     });
-// }
-
-//
+var foodPairings;
 function callFoodPairings() {
     var beerSelected = $('input:checked').val();
     $.ajax({
@@ -223,9 +154,10 @@ function callFoodPairings() {
         success: function (result) {
             for (var i = 0; i < result.data.length; i++) {
                 if (result.data[i].foodPairings !== undefined) {
-                    console.log(result.data[i].foodPairings);
+                    foodPairings = result.data[i].foodPairings;
                 }
             }
+            foodPairingDomCreation();
         },
         error: function () {
             console.log('error')
@@ -233,14 +165,17 @@ function callFoodPairings() {
     });
 }
 function submitBeerSelection(){
-    $('#modalContainer').css('display','none');
+    // $('#modalContainer').css('display','none');
+    $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     callFoodPairings();
+
 
 }
 function findYourBeerInit(){
     $('#modalContainer').css('display','initial');
     $('#beginSearch').css('display','none');
+    $('#domContainer').html('');
 }
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
@@ -248,5 +183,14 @@ function applyClickHandlers(){
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
 }
+function foodPairingDomCreation(){
+    var $div = $('<div>',{
+       text: foodPairings,
+       class: "domFoodPair"
+    });
+    $('#domContainer').append($div);
+}
 
-
+// var imageContainer = {
+//
+// }
