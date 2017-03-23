@@ -7,10 +7,9 @@
  * @type {object}
  *
  * yelp - Global Object that holds the response returned by a successful AJAX call to Yelp API
- *
  * @type {object}
  */
-var foodPairings;
+var foodPairings; //could be passed in as a param of foodPairingDomCreation
 var map;
 var infoWindow;
 var yelp = { coords: [] };
@@ -18,15 +17,14 @@ var locationObj = {
     lat : null,
     long : null
 };
-var contactInfo = [];
+var contactInfo = []; //could be returned as a object in createContactInfo
 var markers = [];
 var geocoder;
 // var tempCoors = [{lat: 33.636193,lng: -117.739393},{lat: 33.643590, lng:-117.743731},{lat: 33.646095,lng:-117.744373}];
 
 /**
- *
+ *  Creates Google Map object and Google Geocoder object
  */
-
 function initialize() {
     geocoder = new google.maps.Geocoder();
     var center = new google.maps.LatLng(37.09024, -100.712891);
@@ -47,13 +45,12 @@ function initialize() {
 }
 
 /**
- *
+ *  Creates Contact Info object from the yelp AJAX call.  //Returns new contact?
  */
-
 function createContactInfo(response) {
     console.log(response);
     for (var i=0; i<response.businesses.length; i++) {
-        var addressInfo = {}
+        var addressInfo = {};
         addressInfo.name = response.businesses[i].name;
         addressInfo.address = response.businesses[i].location.address[0];
         addressInfo.city = response.businesses[i].location.city;
@@ -67,10 +64,8 @@ function createContactInfo(response) {
 }
 
 /**
- * Creates markers on the map
- *
+ * Creates markers on the map, stores into global markers
  */
-
 function createMarker(response) {
     createContactInfo(response);
     for (var i = 0; i < yelp.coords.length; i++) {
@@ -95,9 +90,8 @@ function createMarker(response) {
 }
 
 /**
- * Removes all markers from the map
+ * Removes all markers from the map, empties global markers
  */
-
 function clearMarkers() {
     for (var m in markers) {
         markers[m].setMap(null)
@@ -106,9 +100,8 @@ function clearMarkers() {
 }
 
 /**
- * Gets
+ * Gets the location the user specifies and centers map on that location.  Stores user location to a global
  */
-
 function codeAddress() {
     var address = $(".address").val();
     geocoder.geocode({'address': address}, function(results, status){
@@ -128,12 +121,11 @@ function codeAddress() {
 }
 
 /**
- *  Get the current location of the user and center map on that location, if the user allows
+ *  Get the current location of the user and center map on that location (if the user allows).  Stores user location to a global
  */
-
 function getLocation() {
     if (navigator.geolocation) {
-        //@todo: disable submit button
+        $('#submitBeerButton').addClass('disabled').off('click',submitBeerSelection);
         var geoSuccess = function (position) {
             var pos = {
                 lat: position.coords.latitude,
@@ -143,7 +135,7 @@ function getLocation() {
             locationObj = {};
             locationObj.lat = pos.lat;
             locationObj.long = pos.lng;
-            //@todo: enable submit button
+            $('#submitBeerButton').removeClass('disabled').on('click',submitBeerSelection);
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
@@ -151,12 +143,11 @@ function getLocation() {
     }
 }
 
-//Donald's Yelp Code
 /** @summary Does an AJAX call on the Yelp API and assigns the response to the global var 'yelp'
  *
  * Yelp searches require only a location, either as a string, or latitude and longitude.
- * All other parameters and properties are optional.
- * The location parameter passed in will be either a string or an object; whichever the user inputted last
+ * The location parameter passed in will be either a string or an object; whichever the user inputted last.
+ * All other parameters and properties are optional. Currently, no other parameters are passed in, but the functionality works
  *
  * This function sets the global var 'yelp' to the response object. "yelp['coords']" contains an array of
  * all the latitudes and longitudes of all the businesses in the response.
@@ -169,7 +160,6 @@ function getLocation() {
  *              keywords:   "Stout Beer"
  *
  **/
-
 function callYelp(keywords, location){
     var searchQuery = {
         term: keywords
@@ -203,11 +193,10 @@ function callYelp(keywords, location){
         }
     });
 }
-callYelp("okonomiyaki hiroshima",'Torrance, CA');
+
 /**
  *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
  */
-
 function getYelpKeyword(){
     return $('input:checked').attr('yelpKeyWord');
 }
@@ -267,12 +256,12 @@ function applyClickHandlers(){
     // $(".close").on("click", function(){
     //     alert("Please Enter A Location");
     // });
-    $('#findLocationButton').click(modalAlert);
+    $('#findLocationButton').click(modalAlert); //this can be a class
     $('#myModal').modal({
         backdrop: 'static',
         keyboard: false
     })
-    $('#getLocationSpan').click(modalAlert);
+    $('#getLocationSpan').click(modalAlert); //this can be a class
 }
 
 function foodPairingDomCreation(){
