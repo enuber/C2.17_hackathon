@@ -28,7 +28,6 @@ function initialize() {
 
     infoWindow = new google.maps.InfoWindow();  // can add content here
 }
-
 function createMarker() {
     for (var i = 0; i < tempCoors.length; i++) {
         var coordinates = tempCoors[i];
@@ -38,14 +37,10 @@ function createMarker() {
         });
         markers.push(marker);
     }
-
-
-
     google.maps.event.addListener(marker, 'click', function() {
         infoWindow.setContent(place.name);
         infoWindow.open(map, this);
     });
-
 }
 
 function clearResults(markers) {
@@ -95,26 +90,6 @@ function startUp () {
 $(document).ready(function(){
     startUp();
 });
-
-// function callBeerStyle() {
-//     $.ajax({
-//         data: {
-//             url: 'http://api.brewerydb.com/v2/styles?key=075d4da050ae5fd39db3ded4fd982c92'
-//         },
-//         url: "serverProxy/proxy.php",
-//         method: "GET",
-//         dataType: 'json',
-//         success: function (result) {
-//             for (var i = 0; i < result.data.length; i++) {
-//                 console.log(result.data[i].shortName);
-//             }
-//         },
-//         error: function () {
-//             console.log('error');
-//         }
-//     });
-// }
-
 var foodPairings;
 function callFoodPairings() {
     var beerSelected = $('input:checked').val();
@@ -138,14 +113,17 @@ function callFoodPairings() {
     });
 }
 function submitBeerSelection(){
-    $('#modalContainer').css('display','none');
+    // $('#modalContainer').css('display','none');
+    $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     callFoodPairings();
+    setTimeout(foodPairingDomCreation,1400);
 
 }
 function findYourBeerInit(){
     $('#modalContainer').css('display','initial');
     $('#beginSearch').css('display','none');
+    $('#domContainer').html('');
 }
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
@@ -153,5 +131,14 @@ function applyClickHandlers(){
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
 }
+function foodPairingDomCreation(){
+    var $div = $('<div>',{
+       text: foodPairings,
+       class: "domFoodPair"
+    });
+    $('#domContainer').append($div);
+}
 
+var imageContainer = {
 
+}
