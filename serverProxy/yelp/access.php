@@ -30,8 +30,8 @@ require_once('yelp.config.php');
 $API_HOST = 'api.yelp.com';
 $SEARCH_PATH = '/v2/search/';
 //$SEARCH_LIMIT = 5;
-$DEFAULT_TERM = 'beer';
-$DEFAULT_LOCATION = 'Irvine, CA';
+$DEFAULT_TERM = 'Stout Beer';
+$DEFAULT_LOCATION = 'Seattle, WA';
 
 
 
@@ -104,9 +104,9 @@ function search($filters) {
     $url_params = $filters;
 
     $url_params['term'] = empty($url_params['term']) ? $GLOBALS['DEFAULT_TERM'] : $url_params['term'];
-    $url_params['location'] = empty($url_params['location']) ? $GLOBALS['DEFAULT_LOCATION'] : $url_params['location'];
+    $url_params['location'] = (empty($url_params['location']) && empty($url_params['latitude']) && empty($url_params['longitude'])) ? $GLOBALS['DEFAULT_LOCATION'] : '' );
 //    $url_params['limit'] = empty($url_params['limit']) ? $GLOBALS['SEARCH_LIMIT'] : $url_params['limit'];
-
+    if ($url_params['location'] === '') { unset($url_params['location']); };
     $search_path = $GLOBALS['SEARCH_PATH'] . "?" . http_build_query($url_params);
 
     return request($GLOBALS['API_HOST'], $search_path);
