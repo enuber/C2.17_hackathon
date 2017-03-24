@@ -169,6 +169,7 @@ function clearMarkers() {
         markers[m].setMap(null)
     }
     markers = [];
+    contactInfo = [];
 }
 
 /**
