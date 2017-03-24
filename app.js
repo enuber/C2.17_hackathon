@@ -25,7 +25,7 @@ var infoWindow;
 var markers = [];
 var origin = null;
 var destination = {};
-var directionsDisplay = new google.maps.DirectionsRenderer();
+var directionsDisplay;
 
 /*****
  * Functions
@@ -63,6 +63,8 @@ function initialize() {
         scaleControl: true
     });
     infoWindow = new google.maps.InfoWindow();
+    directionsDisplay = new google.maps.DirectionsRenderer();
+
 }
 
 /**
