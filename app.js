@@ -9,13 +9,13 @@
  * yelp - Global Object that holds the response returned by a successful AJAX call to Yelp API
  * @type {object}
  */
-var foodPairings; //could be passed in as a param of foodPairingDomCreation
+var foodPairings;
 var yelp = { coords: [] };
 var locationObj = {
     lat : null,
     lng : null
 };
-var contactInfo = []; //could be returned as a object in createContactInfo
+var contactInfo = [];
 /**
  * Global Google Entities
  */
@@ -26,6 +26,7 @@ var markers = [];
 var origin = null;
 var destination = {};
 var directionsDisplay = new google.maps.DirectionsRenderer();
+
 /**
  *  Creates Google Map object and Google Geocoder object
  */
@@ -45,11 +46,12 @@ function initialize() {
         },
         scaleControl: true
     });
-    infoWindow = new google.maps.InfoWindow();  // can add content here
+    infoWindow = new google.maps.InfoWindow();
 }
 
 /**
- *  Creates Contact Info object from the yelp AJAX call.  //Returns new contact?
+ *  Creates Contact Info object from the yelp AJAX call.
+ *  @param      response:    {object} Is the response from the ajax call to yelp
  */
 function createContactInfo(response) {
     console.log(response);
@@ -70,14 +72,13 @@ function createContactInfo(response) {
 }
 
 /**
- * Creates markers on the map, stores into global markers
+ * Creates markers on the map, stores into global markers, and handles click event for the markers and map
+ *  @param      response:    {object} Is the response from the ajax call to yelp
  */
 function createMarker(response) {
     createContactInfo(response);
-    //brian
     // var image="http://emojipedia-us.s3.amazonaws.com/cache/bb/cc/bbcc10a5639af93ab107cc2349700533.png"
     var image="images/beer.png";
-    //brian
     for (var i = 0; i < yelp.coords.length; i++) {
         var coordinates = yelp.coords[i];
         var marker = new google.maps.Marker({
@@ -103,7 +104,6 @@ function createMarker(response) {
                 destination = self.position;
             })(this);
         });
-
         google.maps.event.addListener(map, 'click', function(){
             infoWindow.close();
         });
@@ -130,13 +130,9 @@ function codeAddress() {
         if (status == 'OK'){
             map.setCenter(results[0].geometry.location);
             locationObj = address;
-
-            // var marker = new google.maps.Marker({
-            //     map: map,
-            //     position: results[0].geometry.location
-            // });
-
+            modalAlert();
         } else {
+            modalAlert();
             alert("Geocode was not successful for the following reason: " + status);
         }
     })
@@ -167,7 +163,6 @@ function getLocation() {
     }
 }
 
-
 /**
  *  Get directions from users current location to their destination marker on the map.
  */
@@ -179,7 +174,6 @@ function getDirections(origin, destination) {
         };
     directionsDisplay.setMap(null);
     directionsDisplay.setMap(map);
-    // directionsDisplay.setDirections({routes: []});
     directionsService.route(request, function(result, status) {
        if (status == 'OK') {
            directionsDisplay.setDirections(result);
@@ -211,7 +205,6 @@ function callYelp(keywords, location){
     if (typeof location === "object" && location.lat != null && location.lng != null){
         searchQuery.latitude = location.lat;
         searchQuery.longitude = location.lng;
-        // searchQuery.sort_by = 'distance'
     } else {
         searchQuery.location = location;
     }
@@ -240,7 +233,7 @@ function callYelp(keywords, location){
             });
         },
         error: function (error) {
-            console.log("error: ", error);
+            console.error("error: ", error);
         }
     });
 }
@@ -284,8 +277,8 @@ function callFoodPairings() {
             }
             foodPairingDomCreation();
         },
-        error: function () {
-            console.log('error')
+        error: function (error) {
+            console.error('error', error);
         }
     });
 }
@@ -294,45 +287,29 @@ function callFoodPairings() {
  *  calls BreweryDB API and Yelp API with user selected data.
  */
 function submitBeerSelection(){
-    //brian
     if (locationObj.lat === null){
         $('.alert-danger').css('display','block');
     } else{
         $('#submitBeerButton').attr('data-dismiss', 'modal');
     }
-
-    //brian
     $('#domContainer').html('');
     $('#beginSearch').css('display','initial');
     callFoodPairings();
     callYelp(getYelpKeyword(),locationObj);
 }
 
-// function findYourBeerInit(){
-//     $('#modalContainer').css('display','initial');
-//     $('#beginSearch').css('display','none');
-//     $('#domContainer').html('');
-// }
-
 /**
  * Applies all click handlers
  */
 function applyClickHandlers(){
     $('#submitBeerButton').click(submitBeerSelection);
-//  $('#beginSearch').click(findYourBeerInit);
-//  $('#getLocationButton').click(getLocation);
     $(".currentLoc").click(getLocation);
     $(".submit").click(codeAddress);
     $('#tapButton').click(modalDisplay);
-    // $(".close").on("click", function(){
-    //     alert("Please Enter A Location");
-    // });
-    $('#findLocationButton').click(modalAlert); //this can be a class
     $('#myModal').modal({
         backdrop: 'static',
         keyboard: false
     });
-    // $('#getLocationSpan').click(modalAlert); //this can be a class
 }
 
 /**
@@ -350,6 +327,7 @@ function foodPairingDomCreation(){
  * Displays the modal
  */
 function modalDisplay() {
+    directionsDisplay.setMap(null);
     $('.alert-success').css('display','none');
     $("#myModal").modal();
 }
@@ -366,4 +344,3 @@ function modalAlert(){
 
     }
 }
-//brian end
