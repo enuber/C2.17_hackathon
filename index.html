@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍺 Grab a Beer - A Quick and Easy Beer Finder</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="shortcut icon" href="images/favicon.png">
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyDubEdvWZUOZX4jOrSXvXFxdtH3Xpuaonw"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+<div id="mainContainer" class="container">
+    <div class="row">
+        <div id="titleContainer" class="col-sm-4 offset-sm-4">Grab A Beer</div>
+    </div>
+    <div class="row">
+        <div id="modalContainer">
+            <div class="modal fade" id="beerModal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="searchContainer">
+                                <div class="input-group">
+                                    <input type="text" id="locationInput" class="address form-control" placeholder="Enter A Location">
+                                    <span class="input-group-addon" id="getLocationSpan"><i id="getLocationButton"class="glyphicon glyphicon-map-marker currentLoc mt-1"></i></span>
+                                </div>
+                                <button type="button" id="findLocationButton" class="btn btn-primary submit form-control">Set Location</button>
+                                <div id="alertBox" class="alert alert-success">
+                                    <strong>Success!</strong> Your location has been set, now select your beer style!
+                                </div>
+                                <div class="alert alert-danger">
+                                    <strong>Error!</strong> Please enter a location before moving on.
+                                </div>
+                            </div>
+                            <div id="beerSelectContainer">
+                                <input type="radio" id="ipa" value="American%20IPA" yelpKeyWord="Ipa Beer" name="beerStyle" class="beerSelector" checked="checked"/>
+                                <label for="ipa">India Pale Ale/IPA</label>
+                                <br>
+                                <input type="radio" id='amber' value="Amber" name="beerStyle" yelpKeyWord="Amber Ale Beer" class="beerSelector"/>
+                                <label for="amber">Amber Ale</label>
+                                <br>
+                                <input type="radio" id="robust" value="Robust%20Porter" name="beerStyle" yelpKeyWord="Porter Beer" class="beerSelector"/>
+                                <label for="robust">Porter</label>
+                                <br>
+                                <input type="radio" id="lager" value="American%20Lager" name="beerStyle" yelpKeyWord="Lager Beer" class="beerSelector"/>
+                                <label for="lager">Lager</label>
+                                <br>
+                                <input type="radio" id="stout" value="Stout" name="beerStyle" yelpKeyWord="Stout Beer" class="beerSelector"/>
+                                <label for="stout">Stout</label>
+                                <br>
+                                <input type="radio" id="belgian" value="Belgian%20Dubbel" name="beerStyle" yelpKeyWord="Belgium Beer" class="beerSelector"/>
+                                <label for="belgian">Belgium Beer</label>
+                                <br>
+                                <input type="radio" id="doubleipa" value="Imperial%20IPA" name="beerStyle" yelpKeyWord="double IPA Beer" class="beerSelector"/>
+                                <label for="doubleipa">Imperial IPA</label>
+                                <br>
+                            </div>
+                            <div class="subContainer">
+                                <button type="button" id="submitBeerButton" class="btn btn-default form-control">🍻 Grab A Beer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="mapContainer">
+        <div class="col-md-6 col-md-offset-3" id="map"></div>
+    </div>
+    <div id="tapButton"></div>
+    <div class="row" id="domContainer">
+    </div>
+</div>
+</body>
+</html>
