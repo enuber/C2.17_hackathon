@@ -184,6 +184,11 @@ function codeAddress() {
         if (status == 'OK'){
             map.setCenter(results[0].geometry.location);
             locationObj = address;
+            if (locationObj == ""){
+                locationObj = {};
+                locationObj.lat = null;
+                locationObj.lng = null;
+            }
             modalAlert();
         } else {
             modalAlert();
@@ -205,7 +210,6 @@ function submitWithEnterKey() {
  */
 function getLocation() {
     if (navigator.geolocation) {
-        $('#submitBeerButton').addClass('disabled').off('click',submitBeerSelection);
         var geoSuccess = function (position) {
             var pos = {
                 lat: position.coords.latitude,
@@ -215,7 +219,6 @@ function getLocation() {
             locationObj = {};
             locationObj.lat = pos.lat;
             locationObj.lng = pos.lng;
-            $('#submitBeerButton').removeClass('disabled').on('click',submitBeerSelection);
             modalAlert();
         };
         navigator.geolocation.getCurrentPosition(geoSuccess);
@@ -266,7 +269,7 @@ function callFoodPairings() {
     var beerSelected = $('input:checked').val();
     $.ajax({
         data: {
-            url: 'http://api.brewerydb.com/v2/beers?key=075d4da050ae5fd39db3ded4fd982c92&name=' + beerSelected
+            url: 'http://api.brewerydb.com/v2/beers?key=46d711ef3eb4ba9c1dd81467cd6784e5&name=' + beerSelected
         },
         url: 'serverProxy/proxy.php',
         method: 'GET',
