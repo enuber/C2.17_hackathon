@@ -27,6 +27,22 @@ var origin = null;
 var destination = {};
 var directionsDisplay = new google.maps.DirectionsRenderer();
 
+/*****
+ * Functions
+ ****/
+$(document).ready(function(){
+    startUp();
+});
+
+/**
+ * Creates the google map and geocoder, applies all click handlers, displays the modal
+ */
+function startUp () {
+    initialize();
+    applyClickHandlers();
+    modalDisplay();
+}
+
 /**
  *  Creates Google Map object and Google Geocoder object
  */
@@ -50,11 +66,46 @@ function initialize() {
 }
 
 /**
+ * Applies all click handlers
+ */
+function applyClickHandlers(){
+    $('#submitBeerButton').click(submitBeerSelection);
+    $(".currentLoc").click(getLocation);
+    $(".submit").click(codeAddress);
+    $('#tapButton').click(modalDisplay);
+    $('#beerModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+    $('#locationInput').keypress(submitWithEnterKey);
+}
+
+/**
+ * Displays the modal
+ */
+function modalDisplay() {
+    directionsDisplay.setMap(null);
+    $('.alert-success').css('display','none');
+    $("#beerModal").modal();
+}
+
+/**
+ * Displays the alert inside the modal
+ */
+function modalAlert(){
+    if (locationObj.lng === null){
+        $('.alert-danger').css('display', 'block');
+    } else{
+        $('.alert-danger').css('display','none');
+        $('.alert-success').css('display','block');
+    }
+}
+
+/**
  *  Creates Contact Info object from the yelp AJAX call.
  *  @param      response:    {object} Is the response from the ajax call to yelp
  */
 function createContactInfo(response) {
-    console.log(response);
     for (var i=0; i<response.businesses.length; i++) {
         var addressInfo = {};
         addressInfo.name = response.businesses[i].name;
@@ -133,9 +184,17 @@ function codeAddress() {
             modalAlert();
         } else {
             modalAlert();
-            alert("Geocode was not successful for the following reason: " + status);
         }
     })
+}
+
+/**
+ * Allows user to press Enter key on Keyboard to submit their location
+ * @fires codeAddress()
+ */
+function submitWithEnterKey() {
+    if (event.keyCode === 13)
+        $('#findLocationButton').click();
 }
 
 /**
@@ -159,7 +218,6 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(geoSuccess);
     } else {
         modalAlert();
-        console.log("Geolocation is not supported for this Browser/OS");
     }
 }
 
@@ -169,16 +227,77 @@ function getLocation() {
 function getDirections(origin, destination) {
     var directionsService = new google.maps.DirectionsService();
     var request = { origin: origin,
-            destination: destination,
-            travelMode: 'DRIVING'
-        };
+        destination: destination,
+        travelMode: 'DRIVING'
+    };
     directionsDisplay.setMap(null);
     directionsDisplay.setMap(map);
     directionsService.route(request, function(result, status) {
-       if (status == 'OK') {
-           directionsDisplay.setDirections(result);
-       }
+        if (status == 'OK') {
+            directionsDisplay.setDirections(result);
+        }
     });
+}
+
+/**
+ *  calls Yelp API and BreweryDB API with user's selected data
+ *  @fires      callFoodPairings()      AJAX request to BreweryDB API
+ *  @fires      callYelp()              AJAX request to Yelp API
+ */
+function submitBeerSelection(){
+    if (locationObj.lat === null){
+        $('.alert-danger').css('display','block');
+    } else{
+        $('#submitBeerButton').attr('data-dismiss', 'modal');
+    }
+    $('#domContainer').html('');
+    $('#beginSearch').css('display','initial');
+    callFoodPairings();
+    callYelp(getYelpKeyword(),locationObj);
+}
+
+/**
+ * Calls BreweryDB API to get the Food Pairings
+ */
+function callFoodPairings() {
+    var beerSelected = $('input:checked').val();
+    $.ajax({
+        data: {
+            url: 'http://api.brewerydb.com/v2/beers?key=075d4da050ae5fd39db3ded4fd982c92&name=' + beerSelected
+        },
+        url: 'serverProxy/proxy.php',
+        method: 'GET',
+        dataType: 'json',
+        success: function (result) {
+            for (var i = 0; i < result.data.length; i++) {
+                if (result.data[i].foodPairings !== undefined) {
+                    foodPairings = result.data[i].foodPairings;
+                }
+            }
+            foodPairingDomCreation();
+        },
+        error: function (error) {
+            console.error('error', error);
+        }
+    });
+}
+
+/**
+ * Appends the data from the BreweryDB AJAX call to the DOM
+ */
+function foodPairingDomCreation(){
+    var $div = $('<div>',{
+        text: foodPairings,
+        class: "domFoodPair col-xs-6 col-sm-6 pull-right"
+    });
+    $('#domContainer').append($div);
+}
+
+/**
+ *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
+ */
+function getYelpKeyword(){
+    return $('input:checked').attr('yelpKeyWord');
 }
 
 /** @summary Does an AJAX call on the Yelp API and assigns the response to the global var 'yelp'
@@ -214,7 +333,6 @@ function callYelp(keywords, location){
         method: "GET",
         dataType: 'json',
         success: function (response) {
-            console.log(response.businesses.length);
             yelp = response;
             yelp.coords = [];
             for (var i = 0;i < response.businesses.length; i++){
@@ -238,109 +356,5 @@ function callYelp(keywords, location){
     });
 }
 
-/**
- *  @returns {string} User's selected option of the radio inputs, to use for callYelp function
- */
-function getYelpKeyword(){
-    return $('input:checked').attr('yelpKeyWord');
-}
 
-/**
- * Creates the google map and geocoder, applies all click handlers, displays the modal
- */
-function startUp () {
-    initialize();
-    applyClickHandlers();
-    modalDisplay();
-}
-$(document).ready(function(){
-    startUp();
-});
 
-/**
- * Calls BreweryDB API to get the Food Pairings
- */
-function callFoodPairings() {
-    var beerSelected = $('input:checked').val();
-    $.ajax({
-        data: {
-            url: 'http://api.brewerydb.com/v2/beers?key=075d4da050ae5fd39db3ded4fd982c92&name=' + beerSelected
-        },
-        url: 'serverProxy/proxy.php',
-        method: 'GET',
-        dataType: 'json',
-        success: function (result) {
-            for (var i = 0; i < result.data.length; i++) {
-                if (result.data[i].foodPairings !== undefined) {
-                    foodPairings = result.data[i].foodPairings;
-                }
-            }
-            foodPairingDomCreation();
-        },
-        error: function (error) {
-            console.error('error', error);
-        }
-    });
-}
-
-/**
- *  calls BreweryDB API and Yelp API with user selected data.
- */
-function submitBeerSelection(){
-    if (locationObj.lat === null){
-        $('.alert-danger').css('display','block');
-    } else{
-        $('#submitBeerButton').attr('data-dismiss', 'modal');
-    }
-    $('#domContainer').html('');
-    $('#beginSearch').css('display','initial');
-    callFoodPairings();
-    callYelp(getYelpKeyword(),locationObj);
-}
-
-/**
- * Applies all click handlers
- */
-function applyClickHandlers(){
-    $('#submitBeerButton').click(submitBeerSelection);
-    $(".currentLoc").click(getLocation);
-    $(".submit").click(codeAddress);
-    $('#tapButton').click(modalDisplay);
-    $('#myModal').modal({
-        backdrop: 'static',
-        keyboard: false
-    });
-}
-
-/**
- * Appends the data from the foodPairing AJAX call to the DOM
- */
-function foodPairingDomCreation(){
-    var $div = $('<div>',{
-       text: foodPairings,
-       class: "domFoodPair col-xs-6 col-sm-6 pull-right"
-    });
-    $('#domContainer').append($div);
-}
-
-/**
- * Displays the modal
- */
-function modalDisplay() {
-    directionsDisplay.setMap(null);
-    $('.alert-success').css('display','none');
-    $("#myModal").modal();
-}
-
-/**
- * Displays the alert inside the modal
- */
-function modalAlert(){
-    if (locationObj.lng === null){
-        $('.alert-danger').css('display', 'block');
-    } else{
-        $('.alert-danger').css('display','none');
-        $('.alert-success').css('display','block');
-
-    }
-}
