@@ -7,13 +7,13 @@
  * by using the Search API to query for businesses by a search term and location,
  * and the Business API to query additional information about the top result
  * from the search query.
- * 
+ *
  * Please refer to http://www.yelp.com/developers/documentation for the API documentation.
- * 
+ *
  * This program requires a PHP OAuth2 library, which is included in this branch and can be
  * found here:
  *      http://oauth.googlecode.com/svn/code/php/
- * 
+ *
  * Sample usage of the program:
  * `php sample.php --term="bars" --location="San Francisco, CA"`
  */
@@ -21,7 +21,7 @@
 // Enter the path that the oauth library is in relation to the php file
 require_once('lib/OAuth.php');
 
-// Set your OAuth credentials here  
+// Set your OAuth credentials here
 // These credentials can be obtained from the 'Manage API Access' page in the
 // developers documentation (http://www.yelp.com/developers)
 require_once('yelp.config.php');
@@ -35,12 +35,12 @@ $DEFAULT_LOCATION = 'Irvine, CA';
 
 
 
-/** 
+/**
  * Makes a request to the Yelp API and returns the response
- * 
- * @param    $host    The domain host of the API 
+ *
+ * @param    $host    The domain host of the API
  * @param    $path    The path of the APi after the domain
- * @return   The JSON response from the request      
+ * @return   The JSON response from the request
  */
 function request($host, $path) {
     $unsigned_url = "http://" . $host . $path;
@@ -55,15 +55,15 @@ function request($host, $path) {
     $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
 
     $oauthrequest = OAuthRequest::from_consumer_and_token(
-        $consumer, 
-        $token, 
-        'GET', 
+        $consumer,
+        $token,
+        'GET',
         $unsigned_url
     );
-    
+
     // Sign the request
     $oauthrequest->sign_request($signature_method, $consumer, $token);
-    
+
     // Get the signed URL
     $signed_url = $oauthrequest->to_url();
 
@@ -98,7 +98,7 @@ function request($host, $path) {
  * If the parameters by the Search API do not exist, we will use default parameters
  *
  * @param    $filters     Parameters passed to the API to filter search
- * @return   The JSON response from the request 
+ * @return   The JSON response from the request
  */
 function search($filters) {
     $url_params = $filters;
@@ -124,7 +124,7 @@ function query_api($filters) {
 }
 
 /**
- * User input is handled here 
+ * User input is handled here
  */
 
 $term = $_GET['term'] ?: '';
