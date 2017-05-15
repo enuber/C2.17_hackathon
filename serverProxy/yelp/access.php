@@ -124,18 +124,12 @@ function query_api($filters) {
 }
 
 /**
- * User input is handled here
+ * User input received from the AJAX call is pushed into an array, to be used in the Yelp query
  */
-
-$term = $_GET['term'] ?: '';
-$location = $_GET['location'] ?: '';
-//unset($_GET['term']);  unset($_GET['location']);
-
 $filters = array();
 foreach($_GET as $filterName => $filterValue){
     $filters[$filterName] = $filterValue;
 }
-
 
 
 query_api($filters);
