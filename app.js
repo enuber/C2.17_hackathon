@@ -328,13 +328,15 @@ function callYelp(keywords, location){
         term: keywords
     };
     if (typeof location === "object" && location.lat != null && location.lng != null){
-        searchQuery.latitude = location.lat;
-        searchQuery.longitude = location.lng;
+        searchQuery.location = location.lat+","+location.lng
     } else {
         searchQuery.location = location;
     }
     $.ajax({
-        data: searchQuery,
+        data: {
+            "term": keywords,
+            "location": searchQuery.location
+        },
         url: "serverProxy/yelp/access.php",
         method: "GET",
         dataType: 'json',
