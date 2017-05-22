@@ -363,6 +363,3 @@ function callYelp(keywords, location){
         }
     });
 }
-
-
-
