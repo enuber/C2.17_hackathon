@@ -5,36 +5,13 @@ html, body, #mainContainer {
     padding: 0;
     font-size: 3vh;
 }
-body{
-    position: fixed;
-}
-#mainContainer{
-    /*position: relative;*/
-}
-/*#modalContainer {*/
-    /*height: 75%;*/
-    /*position: absolute;*/
-    /*background-color: rgba(171,169,171,0.45);*/
-    /*left: 4%;*/
-    /*top: 12.5%;*/
-    /*z-index: 1;*/
-    /*width: 20%;*/
-    /*border-radius: 5px;*/
-/*}*/
-/*div#searchContainer {*/
-    /*margin: 5%;*/
-    /*text-align: center;*/
-/*}*/
 #titleContainer {
     margin: 1% 0 5% 0;
-    /* height: 8%; */
     left: 33%;
-    /* position: absolute; */
     font-weight: bold;
     letter-spacing: 3vmin;
     font-size: 4vmin;
     font-family: 'Rock Salt', cursive;
-    /* top: 7%; */
     background-color: rgba(76, 69, 69, 0.55);
     color: #cfcbcb;
     width: 34%;
@@ -42,17 +19,8 @@ body{
     text-align: center;
     border-radius: 5px;
 }
-
-/*button#submitBeerButton {*/
-    /*font-size: 2vmin;*/
-    /*!*margin: ;*!*/
-/*}*/
-/*div#beerSelectContainer {*/
-    /*font-size: 2vmin;*/
-    /*font-family: arial, sans-serif;*/
-    /*margin: 20% 10%;*/
-/*}*/
 body{
+    position: fixed;
     background-image: url('http://renoriver.org/wp-content/uploads/2014/02/beer-copy.jpg');
     background-repeat: no-repeat;
     background-size: cover;
@@ -62,39 +30,23 @@ button#beginSearch {
     margin: 2%;
     display: none;
 }
-#domContainer {
-    /*height: 20vw;*/
-    /*width: 20vw;*/
-}
 .domFoodPair {
-    /*top: 12.5%;*/
-    /*position: absolute;*/
-    /*height: 75%;*/
     background-color: rgba(171,169,171,0.45);
     font-size: 3vmin;
     padding: 3% 1%;
     border-radius: 10px;
     color: white;
-    /*right: 4%;*/
-    /*width: 20%;*/
 }
 .currentLoc {
     margin: 25% 0 0 0;
 }
-/*button#submitBeerButton {*/
-    /*!*margin: 5%;*!*/
-/*}*/
-/**brian*/
 #domContainer{
     height: 20%;
     width: 100%;
     margin: 0;
-    /*position: relative;*/
 }
 #mapContainer{
     height: 57vh;
-    /*width: 80%;*/
-    /*position: relative;*/
 }
 #map{
     height:100%;
@@ -102,9 +54,6 @@ button#beginSearch {
     bottom: 5%;
     border-radius: 5px;
     opacity: 0.7;
-}
-.modal {
-    /*text-align:center;*/
 }
 .modal-content{
     opacity: .9;
@@ -121,30 +70,14 @@ button#beginSearch {
     text-align: center;
     margin-bottom: 5%;
 }
-
-@media (min-width: 768px) {
-    .modal:before {
-        display: inline-block;
-        vertical-align: middle;
-        content: " ";
-        height: 100%;
-    }
-    .modal-dialog{
-        width: 600px;
-        left: 25%;
-    }
-    .modal-content{
-        height: 70%;
-        margin-top: 10%;
-    }
-    input[type=radio]{
-        margin-left: 35%;
-    }
+#modalContainer > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .alert-success,.alert-danger{
     display: none;
 }
-
 .markerWindow h1 {
     font-size: 2.0em;
     font-family: "Arial", sans-serif;
@@ -158,7 +91,7 @@ input[type=radio]{
     margin-left: 25%;
 }
 #alertBox{
-    margin-bottom: 50px;
+    margin-bottom: .5em;
 }
 #getLocationSpan, #submitBeerButton{
     background-color: #337ab7;
@@ -166,12 +99,7 @@ input[type=radio]{
     border-color: #2e6da4;
 }
 #findLocationButton{
-    margin-bottom: 50px;
-}
-@media only screen and (orientation: landscape) {
-    #mainContainer {
-        font-size: 16px;
-    }
+    margin-bottom: .5em;
 }
 #tapButton {
     height: 44vmin;
@@ -184,10 +112,33 @@ input[type=radio]{
     bottom: 0;
 }
 #tapButton:active {
-    /*transform: translateY(8vmin) translateX(15vmin) rotateZ(45deg);*/
     transform: translateY(4vmin);
     transition-duration: 1s;
-    transition-timing-function: cubic-bezier(0.2,1,0.3,1);
+    transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+}
 .subContainer {
     margin: 5%;
+}
+@media (min-width: 768px) {
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: " ";
+        height: 100%;
+    }
+    .modal-dialog{
+        width: 600px;
+    }
+    .modal-content{
+        height: 70%;
+        margin-top: 10%;
+    }
+    input[type=radio]{
+        margin-left: 35%;
+    }
+}
+@media only screen and (orientation: landscape) {
+    #mainContainer {
+        font-size: 16px;
+    }
 }
