@@ -95,6 +95,9 @@ function modalDisplay() {
  * Displays the alert inside the modal
  */
 function modalAlert(){
+    if (!($('.holder').hasClass('hideLoader'))) {
+        $('.holder').addClass('hideLoader');
+    }
     if (locationObj.lng === null){
         $('.alert-danger').css('display', 'block');
     } else{
@@ -178,6 +181,8 @@ function clearMarkers() {
  * Gets the location the user specifies and centers map on that location.  Stores user location to a global
  */
 function codeAddress() {
+    $('.alert-danger').css('display','none');
+    $('.alert-success').css('display','none');
     var address = $(".address").val();
     origin = address;
     geocoder.geocode({'address': address}, function(results, status){
@@ -209,6 +214,9 @@ function submitWithEnterKey() {
  *  Get the current location of the user and center map on that location (if the user allows).  Stores user location to a global
  */
 function getLocation() {
+    $('.alert-danger').css('display','none');
+    $('.alert-success').css('display','none');
+    $('.holder').removeClass('hideLoader');
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
