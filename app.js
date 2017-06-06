@@ -64,7 +64,6 @@ function initialize() {
     });
     infoWindow = new google.maps.InfoWindow();
     directionsDisplay = new google.maps.DirectionsRenderer();
-
 }
 
 /**
@@ -79,13 +78,22 @@ function applyClickHandlers(){
         backdrop: 'static',
         keyboard: false
     });
-    $('#locationInput').keypress(submitWithEnterKey);
+    $('#locationInput').keypress(submitWithEnterKey).focus(checkValue).keyup(checkValue);
 }
 
+//
+function checkValue() {
+    if ($('#locationInput').val().length > 2) {
+        $("#findLocationButton").removeAttr('disabled');
+    } else {
+        $("#findLocationButton").attr('disabled', 'disabled');
+    }
+}
 /**
  * Displays the modal
  */
 function modalDisplay() {
+    $('#findLocationButton').attr('disabled', 'disabled');
     directionsDisplay.setMap(null);
     $('.alert-success').css('display','none');
     $("#beerModal").modal();
@@ -103,6 +111,7 @@ function modalAlert(){
     } else{
         $('.alert-danger').css('display','none');
         $('.alert-success').css('display','block');
+        $('#submitBeerButton').removeAttr('disabled');
     }
 }
 
@@ -206,6 +215,7 @@ function codeAddress() {
  * @fires codeAddress()
  */
 function submitWithEnterKey() {
+    checkValue();
     if (event.keyCode === 13)
         $('#findLocationButton').click();
 }
@@ -261,13 +271,13 @@ function getDirections(origin, destination) {
 function submitBeerSelection(){
     if (locationObj.lat === null){
         $('.alert-danger').css('display','block');
-    } else{
+    } else {
         $('#submitBeerButton').attr('data-dismiss', 'modal');
+        $('#domContainer').html('');
+        $('#beginSearch').css('display','initial');
+        callFoodPairings();
+        callYelp(getYelpKeyword(),locationObj);
     }
-    $('#domContainer').html('');
-    $('#beginSearch').css('display','initial');
-    callFoodPairings();
-    callYelp(getYelpKeyword(),locationObj);
 }
 
 /**
@@ -301,7 +311,7 @@ function callFoodPairings() {
  */
 function foodPairingDomCreation(){
     var $div = $('<div>',{
-        text: foodPairings,
+        html: "Suggested Pairings: <br/>" + foodPairings,
         class: "domFoodPair col-xs-6 col-sm-6 pull-right"
     });
     $('#domContainer').append($div);
