@@ -153,15 +153,33 @@ input[type=radio]{
 
 
 /*Loader*/
+.hideLoader {
+    display: inline-block;
+    margin: 0 auto;
+    width: 100%;
+}
 .holder {
     position:relative;
     display: block;
     height: 50px;
-    width: 35px;
+    width: 60px;
     margin: 0 auto;
 }
 .hideLoader {
     display: none;
+}
+.loaderText {
+    position: relative;
+    left: 85px;
+    bottom: 10px;
+    color: #337ab7;
+    font-size: 14px;
+}
+.loaderText {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
 }
 .loader,
 .loader:before,
