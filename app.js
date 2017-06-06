@@ -300,6 +300,7 @@ function callFoodPairings() {
             for (var i = 0; i < result.data.length; i++) {
                 if (result.data[i].foodPairings !== undefined) {
                     foodPairings = result.data[i].foodPairings;
+                    foodPairings = foodPairings.charAt(0).toUpperCase() + foodPairings.slice(1).toLowerCase();
                 }
             }
             foodPairingDomCreation();
