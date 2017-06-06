@@ -291,6 +291,7 @@ function callFoodPairings() {
     var beerSelected = $('input:checked').val();
     $.ajax({
         data: {
+            // url: 'http://api.brewerydb.com/v2/beers?key=075d4da050ae5fd39db3ded4fd982c92&name=' + beerSelected
             url: 'http://api.brewerydb.com/v2/beers?key=46d711ef3eb4ba9c1dd81467cd6784e5&name=' + beerSelected
         },
         url: 'serverProxy/proxy.php',
@@ -301,6 +302,10 @@ function callFoodPairings() {
                 if (result.data[i].foodPairings !== undefined) {
                     foodPairings = result.data[i].foodPairings;
                     foodPairings = foodPairings.charAt(0).toUpperCase() + foodPairings.slice(1).toLowerCase();
+                    var findTexas = foodPairings.indexOf("texas");
+                    if(findTexas >= 0){
+                        foodPairings = foodPairings.slice(0, findTexas)+foodPairings.charAt(findTexas).toUpperCase()+foodPairings.slice(findTexas+1);
+                    }
                 }
             }
             foodPairingDomCreation();
