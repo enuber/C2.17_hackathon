@@ -148,6 +148,7 @@ function createMarker(response) {
     createContactInfo(response);
     // var image="http://emojipedia-us.s3.amazonaws.com/cache/bb/cc/bbcc10a5639af93ab107cc2349700533.png"
     var image="images/beer.png";
+    map.setCenter(yelp.coords[0]);
     for (var i = 0; i < yelp.coords.length; i++) {
         var coordinates = yelp.coords[i];
         var marker = new google.maps.Marker({
@@ -231,6 +232,8 @@ function getLocation() {
     $('.alert-danger').css('display','none');
     $('.alert-success').css('display','none');
     $('.spinnerContainer').removeClass('hideLoader');
+    $('.address').val('');
+    $("#findLocationButton").attr('disabled', 'disabled');
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
