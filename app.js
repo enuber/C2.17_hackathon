@@ -107,8 +107,8 @@ function modalDisplay() {
  * Displays the alert inside the modal
  */
 function modalAlert(){
-    if (!($('.holder').hasClass('hideLoader'))) {
-        $('.holder').addClass('hideLoader');
+    if (!($('.spinnerContainer').hasClass('hideLoader'))) {
+        $('.spinnerContainer').addClass('hideLoader');
     }
     if (locationObj.lng === null){
         $('.alert-danger').css('display', 'block');
@@ -230,7 +230,7 @@ function submitWithEnterKey() {
 function getLocation() {
     $('.alert-danger').css('display','none');
     $('.alert-success').css('display','none');
-    $('.holder').removeClass('hideLoader');
+    $('.spinnerContainer').removeClass('hideLoader');
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
