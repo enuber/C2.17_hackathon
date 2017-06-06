@@ -131,6 +131,11 @@ input[type=radio]{
 .subContainer {
     margin: 5%;
 }
+.pac-container, .pac-item {
+    z-index:2147483647;
+    color: #337ab7;
+}
+
 @media (min-width: 768px) {
     .modal:before {
         display: inline-block;
