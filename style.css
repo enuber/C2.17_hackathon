@@ -31,11 +31,15 @@ button#beginSearch {
     display: none;
 }
 .domFoodPair {
-    background-color: rgba(171,169,171,0.45);
-    font-size: 3vmin;
-    padding: 3% 1%;
+    background-color: rgba(171,169,171,0.55);
+    font-size: 2.5vmin;
+    padding: 1% 1% 2%;
     border-radius: 10px;
     color: white;
+}
+.domFoodPair h5 {
+    font-size: 3vmin;
+    margin-bottom: -15px;
 }
 .currentLoc {
     margin: 25% 0 0 0;
@@ -93,13 +97,21 @@ input[type=radio]{
 #alertBox{
     margin-bottom: .5em;
 }
-#getLocationSpan, #submitBeerButton{
+#getLocationSpan, #submitBeerButton,
+#findLocationButton {
     background-color: #337ab7;
     color: white;
     border-color: #2e6da4;
 }
 #findLocationButton{
     margin-bottom: .5em;
+}
+#getLocationSpan:hover, #submitBeerButton:hover,
+#findLocationButton:hover {
+    opacity: .9;
+}
+#findLocationButton:disabled{
+    opacity: .5;
 }
 #tapButton {
     height: 44vmin;
@@ -119,6 +131,11 @@ input[type=radio]{
 .subContainer {
     margin: 5%;
 }
+.pac-container, .pac-item {
+    z-index:2147483647;
+    color: #337ab7;
+}
+
 @media (min-width: 768px) {
     .modal:before {
         display: inline-block;
@@ -142,18 +159,41 @@ input[type=radio]{
         font-size: 16px;
     }
 }
+@media only screen and (max-device-width: 500px){
+    .domFoodPair, .domFoodPair h5{
+        font-size: 4vmin;
+    }
+}
 
 
 /*Loader*/
+.hideLoader {
+    display: inline-block;
+    margin: 0 auto;
+    width: 100%;
+}
 .holder {
     position:relative;
     display: block;
     height: 50px;
-    width: 35px;
+    width: 60px;
     margin: 0 auto;
 }
 .hideLoader {
     display: none;
+}
+.loaderText {
+    position: relative;
+    left: 85px;
+    bottom: 10px;
+    color: #337ab7;
+    font-size: 14px;
+}
+.loaderText {
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    text-align: center;
 }
 .loader,
 .loader:before,

@@ -47,11 +47,13 @@ function startUp () {
  *  Creates Google Map object and Google Geocoder object
  */
 function initialize() {
+    var input = document.getElementById('locationInput');
+    var autocomplete = new google.maps.places.Autocomplete(input);
     geocoder = new google.maps.Geocoder();
     var center = new google.maps.LatLng(37.09024, -100.712891);
     map = new google.maps.Map(document.getElementById('map'), {
         center: center,
-        zoom: 12,
+        zoom: 10,
         panControl: false,
         mapTypeControl: false,
         zoomControl: true,
@@ -64,7 +66,6 @@ function initialize() {
     });
     infoWindow = new google.maps.InfoWindow();
     directionsDisplay = new google.maps.DirectionsRenderer();
-
 }
 
 /**
@@ -79,33 +80,45 @@ function applyClickHandlers(){
         backdrop: 'static',
         keyboard: false
     });
-    $('#locationInput').keypress(submitWithEnterKey);
+    $('#locationInput').keypress(submitWithEnterKey).focus(checkValue).keyup(checkValue);
 }
+/**
+ * Checks to see if the location value input contains basic address info allowed. not just spaces and at least 5 characters
+ */
 
+function checkValue() {
+    var location = $('#locationInput').val();
+    var locationLengthCheck = location.replace(/\s/g, '');
+    if ((/^[A-Za-z0-9'\.\-\s\,\#]+$/i.test(location)) && (/\S/.test(location)) && locationLengthCheck.length >= 2) {
+        $("#findLocationButton").removeAttr('disabled');
+    } else {
+        $("#findLocationButton").attr('disabled', 'disabled');
+    }
+}
 /**
  * Displays the modal
  */
 function modalDisplay() {
+    $('#findLocationButton').attr('disabled', 'disabled');
     directionsDisplay.setMap(null);
     $('.alert-success').css('display','none');
     $("#beerModal").modal();
 }
-
 /**
  * Displays the alert inside the modal
  */
 function modalAlert(){
-    if (!($('.holder').hasClass('hideLoader'))) {
-        $('.holder').addClass('hideLoader');
+    if (!($('.spinnerContainer').hasClass('hideLoader'))) {
+        $('.spinnerContainer').addClass('hideLoader');
     }
     if (locationObj.lng === null){
         $('.alert-danger').css('display', 'block');
     } else{
         $('.alert-danger').css('display','none');
         $('.alert-success').css('display','block');
+        $('#submitBeerButton').removeAttr('disabled');
     }
 }
-
 /**
  *  Creates Contact Info object from the yelp AJAX call.
  *  @param      response:    {object} Is the response from the ajax call to yelp
@@ -135,6 +148,7 @@ function createMarker(response) {
     createContactInfo(response);
     // var image="http://emojipedia-us.s3.amazonaws.com/cache/bb/cc/bbcc10a5639af93ab107cc2349700533.png"
     var image="images/beer.png";
+    map.setCenter(yelp.coords[0]);
     for (var i = 0; i < yelp.coords.length; i++) {
         var coordinates = yelp.coords[i];
         var marker = new google.maps.Marker({
@@ -206,6 +220,7 @@ function codeAddress() {
  * @fires codeAddress()
  */
 function submitWithEnterKey() {
+    checkValue();
     if (event.keyCode === 13)
         $('#findLocationButton').click();
 }
@@ -216,7 +231,9 @@ function submitWithEnterKey() {
 function getLocation() {
     $('.alert-danger').css('display','none');
     $('.alert-success').css('display','none');
-    $('.holder').removeClass('hideLoader');
+    $('.spinnerContainer').removeClass('hideLoader');
+    $('.address').val('');
+    $("#findLocationButton").attr('disabled', 'disabled');
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
@@ -261,13 +278,13 @@ function getDirections(origin, destination) {
 function submitBeerSelection(){
     if (locationObj.lat === null){
         $('.alert-danger').css('display','block');
-    } else{
+    } else {
         $('#submitBeerButton').attr('data-dismiss', 'modal');
+        $('#domContainer').html('');
+        $('#beginSearch').css('display','initial');
+        callFoodPairings();
+        callYelp(getYelpKeyword(),locationObj);
     }
-    $('#domContainer').html('');
-    $('#beginSearch').css('display','initial');
-    callFoodPairings();
-    callYelp(getYelpKeyword(),locationObj);
 }
 
 /**
@@ -277,6 +294,7 @@ function callFoodPairings() {
     var beerSelected = $('input:checked').val();
     $.ajax({
         data: {
+            // url: 'http://api.brewerydb.com/v2/beers?key=075d4da050ae5fd39db3ded4fd982c92&name=' + beerSelected
             url: 'http://api.brewerydb.com/v2/beers?key=46d711ef3eb4ba9c1dd81467cd6784e5&name=' + beerSelected
         },
         url: 'serverProxy/proxy.php',
@@ -286,6 +304,11 @@ function callFoodPairings() {
             for (var i = 0; i < result.data.length; i++) {
                 if (result.data[i].foodPairings !== undefined) {
                     foodPairings = result.data[i].foodPairings;
+                    foodPairings = foodPairings.charAt(0).toUpperCase() + foodPairings.slice(1).toLowerCase();
+                    var findTexas = foodPairings.indexOf("texas");
+                    if(findTexas >= 0){
+                        foodPairings = foodPairings.slice(0, findTexas)+foodPairings.charAt(findTexas).toUpperCase()+foodPairings.slice(findTexas+1);
+                    }
                 }
             }
             foodPairingDomCreation();
@@ -301,7 +324,7 @@ function callFoodPairings() {
  */
 function foodPairingDomCreation(){
     var $div = $('<div>',{
-        text: foodPairings,
+        html: "<h5>Suggested Pairings: </h5><br/>" + foodPairings,
         class: "domFoodPair col-xs-6 col-sm-6 pull-right"
     });
     $('#domContainer').append($div);
