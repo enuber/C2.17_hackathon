@@ -80,10 +80,13 @@ function applyClickHandlers(){
     });
     $('#locationInput').keypress(submitWithEnterKey).focus(checkValue).keyup(checkValue);
 }
+/**
+ * Checks to see if the location value input contains basic address info allowed. not just spaces and at least 5 characters
+ */
 
-//
 function checkValue() {
-    if ($('#locationInput').val().length > 2) {
+    var location = $('#locationInput').val();
+    if ((/^[A-Za-z0-9'\.\-\s\,\#]+$/i.test(location)) && (/\S/.test(location)) && location.length >= 5) {
         $("#findLocationButton").removeAttr('disabled');
     } else {
         $("#findLocationButton").attr('disabled', 'disabled');
