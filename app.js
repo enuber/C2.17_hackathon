@@ -47,11 +47,13 @@ function startUp () {
  *  Creates Google Map object and Google Geocoder object
  */
 function initialize() {
+    var input = document.getElementById('locationInput');
+    var autocomplete = new google.maps.places.Autocomplete(input);
     geocoder = new google.maps.Geocoder();
     var center = new google.maps.LatLng(37.09024, -100.712891);
     map = new google.maps.Map(document.getElementById('map'), {
         center: center,
-        zoom: 12,
+        zoom: 10,
         panControl: false,
         mapTypeControl: false,
         zoomControl: true,
@@ -102,7 +104,6 @@ function modalDisplay() {
     $('.alert-success').css('display','none');
     $("#beerModal").modal();
 }
-
 /**
  * Displays the alert inside the modal
  */
@@ -118,7 +119,6 @@ function modalAlert(){
         $('#submitBeerButton').removeAttr('disabled');
     }
 }
-
 /**
  *  Creates Contact Info object from the yelp AJAX call.
  *  @param      response:    {object} Is the response from the ajax call to yelp
