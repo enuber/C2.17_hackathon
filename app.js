@@ -315,7 +315,7 @@ function callFoodPairings() {
  */
 function foodPairingDomCreation(){
     var $div = $('<div>',{
-        html: "Suggested Pairings: <br/>" + foodPairings,
+        html: "<h5>Suggested Pairings: </h5><br/>" + foodPairings,
         class: "domFoodPair col-xs-6 col-sm-6 pull-right"
     });
     $('#domContainer').append($div);
