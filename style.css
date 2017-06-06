@@ -93,13 +93,21 @@ input[type=radio]{
 #alertBox{
     margin-bottom: .5em;
 }
-#getLocationSpan, #submitBeerButton{
+#getLocationSpan, #submitBeerButton,
+#findLocationButton {
     background-color: #337ab7;
     color: white;
     border-color: #2e6da4;
 }
 #findLocationButton{
     margin-bottom: .5em;
+}
+#getLocationSpan:hover, #submitBeerButton:hover,
+#findLocationButton:hover {
+    opacity: .9;
+}
+#findLocationButton:disabled{
+    opacity: .5;
 }
 #tapButton {
     height: 44vmin;
