@@ -86,7 +86,7 @@ function applyClickHandlers(){
 
 function checkValue() {
     var location = $('#locationInput').val();
-    if ((/^[A-Za-z0-9'\.\-\s\,\#]+$/i.test(location)) && (/\S/.test(location)) && location.length >= 5) {
+    if ((/^[A-Za-z0-9'\.\-\s\,\#]+$/i.test(location)) && (/\S/.test(location)) && location.length >= 2) {
         $("#findLocationButton").removeAttr('disabled');
     } else {
         $("#findLocationButton").attr('disabled', 'disabled');
