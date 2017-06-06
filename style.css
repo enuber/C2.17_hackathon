@@ -31,11 +31,15 @@ button#beginSearch {
     display: none;
 }
 .domFoodPair {
-    background-color: rgba(171,169,171,0.45);
-    font-size: 3vmin;
-    padding: 3% 1%;
+    background-color: rgba(171,169,171,0.55);
+    font-size: 2.5vmin;
+    padding: 1% 1% 2%;
     border-radius: 10px;
     color: white;
+}
+.domFoodPair h5 {
+    font-size: 3vmin;
+    margin-bottom: -15px;
 }
 .currentLoc {
     margin: 25% 0 0 0;
