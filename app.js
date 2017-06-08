@@ -246,7 +246,10 @@ function getLocation() {
             locationObj.lng = pos.lng;
             modalAlert();
         };
-        navigator.geolocation.getCurrentPosition(geoSuccess);
+        var error = function() {
+            modalAlert();
+        };
+        navigator.geolocation.getCurrentPosition(geoSuccess, error);
     } else {
         modalAlert();
     }
