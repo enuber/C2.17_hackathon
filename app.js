@@ -235,7 +235,7 @@ function getLocation() {
     $('.address').val('');
     $("#findLocationButton").attr('disabled', 'disabled');
     var options = {
-        timeout: 5000;
+        timeout: 5000
     };
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
