@@ -21,7 +21,7 @@ html, body, #mainContainer {
 }
 body{
     position: fixed;
-    background-image: url('http://renoriver.org/wp-content/uploads/2014/02/beer-copy.jpg');
+    background-image: url(images/beer-copy.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

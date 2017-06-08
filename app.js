@@ -234,6 +234,9 @@ function getLocation() {
     $('.spinnerContainer').removeClass('hideLoader');
     $('.address').val('');
     $("#findLocationButton").attr('disabled', 'disabled');
+    var options = {
+        timeout: 5000
+    };
     if (navigator.geolocation) {
         var geoSuccess = function (position) {
             var pos = {
@@ -246,7 +249,10 @@ function getLocation() {
             locationObj.lng = pos.lng;
             modalAlert();
         };
-        navigator.geolocation.getCurrentPosition(geoSuccess);
+        var error = function() {
+            modalAlert();
+        };
+        navigator.geolocation.getCurrentPosition(geoSuccess, error, options);
     } else {
         modalAlert();
     }
