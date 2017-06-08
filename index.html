@@ -27,7 +27,7 @@
                             <div class="searchContainer">
                                 <div class="input-group">
                                     <input type="text" id="locationInput" class="address form-control" placeholder="Enter A Location">
-                                    <span class="input-group-addon" id="getLocationSpan"><i id="getLocationButton"class="glyphicon glyphicon-map-marker currentLoc mt-1"></i></span>
+                                    <span class="input-group-addon" id="getLocationButton"><i class="glyphicon glyphicon-map-marker currentLoc mt-1"></i></span>
                                 </div>
                                 <button type="button" id="findLocationButton" class="btn btn-primary submit form-control" disabled>Set Location</button>
                                 <div class="spinnerContainer hideLoader">
@@ -36,15 +36,12 @@
                                     </div>
                                     <p class="loaderText">Finding Current Location</p>
                                 </div>
-                                <div id="alertBox" class="alert alert-success">
-                                    <strong>Success!</strong> Your location has been set, now select your beer style!
-                                </div>
-                                <div class="alert alert-danger">
-                                    <strong>Error!</strong> Please enter a location before moving on.
+                                <div id="alertBox" class="alert alert-danger">
+                                    <strong id="alertTitle">Error!</strong> <span id="alertMessage">Please enter a location before moving on.</span>
                                 </div>
                             </div>
                             <div id="beerSelectContainer">
-                                <input type="radio" id="ipa" value="American%20IPA" yelpKeyWord="Ipa Beer" name="beerStyle" class="beerSelector" checked="checked"/>
+                                <input type="radio" id="ipa" value="American%20IPA" yelpKeyWord="IPA Beer" name="beerStyle" class="beerSelector" checked="checked"/>
                                 <label for="ipa">India Pale Ale/IPA</label>
                                 <br>
                                 <input type="radio" id='amber' value="Amber" name="beerStyle" yelpKeyWord="Amber Ale Beer" class="beerSelector"/>
@@ -62,7 +59,7 @@
                                 <input type="radio" id="belgian" value="Belgian%20Dubbel" name="beerStyle" yelpKeyWord="Belgium Beer" class="beerSelector"/>
                                 <label for="belgian">Belgium Beer</label>
                                 <br>
-                                <input type="radio" id="doubleipa" value="Imperial%20IPA" name="beerStyle" yelpKeyWord="double IPA Beer" class="beerSelector"/>
+                                <input type="radio" id="doubleipa" value="Imperial%20IPA" name="beerStyle" yelpKeyWord="Double IPA Beer" class="beerSelector"/>
                                 <label for="doubleipa">Imperial IPA</label>
                                 <br>
                             </div>
